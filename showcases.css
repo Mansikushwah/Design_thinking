@@ -1,0 +1,92 @@
+body{
+    background-color: #fcfaf8;
+    margin:0;
+    padding:0;
+}
+.header {
+    height: 10vh;
+    background-color: #CCD5AE;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.header form{
+    display: flex;
+    align-items: center;
+    justify-items: center;
+}
+.search{
+    width: 40vw;
+    border-radius: 5px;
+}
+.showcases{
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    margin:auto;
+    margin-top: 2px;
+}
+.showcase{
+    margin:5px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+    
+}
+.showcase img{
+    border-radius: 5px;
+    height: 30vh;
+    cursor: pointer;
+}
+.profile{
+    display: flex;
+    cursor: pointer;
+    color:rgb(83, 80, 80)
+}
+.profile img{
+    width: 3vh;
+    height: 3vh;
+}
+.navigation{
+    display: flex;
+    justify-content: space-around ;
+}
+.bar{
+    width: 25vw;
+    border-radius: 5px;
+    color: #fcfaf8;
+    display: flex;
+    cursor: pointer;
+}
+.line{
+    background-color: black;
+    padding: 1px;
+}
+.myprofile img{
+    width: 5vh;
+    border-radius: 2.5vh;
+    cursor: pointer;
+    border: 2px solid black;
+}
+.tab{
+    display: flex;
+    background-color: #593007;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0px;
+}
+.filter{
+    border: 2px solid black;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.filter:hover{
+    background-color: #E9EDC9;
+}
+footer{
+    background-color: #593007;
+    display: flex;
+    align-content: center;
+}
