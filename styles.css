@@ -1,0 +1,180 @@
+/* General Styles */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+header.navbar {
+    width: 100vw;
+    height: 8vh;
+    background-color: #D4A373;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+}
+
+header .logo h1 {
+    margin: 0;
+}
+
+.background {
+    width: 100%;
+    height: 50vh;
+}
+
+.background img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile {
+    width: 70vw;
+    background-color: #FEFAE0;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 10px;
+    border: 1px solid #D4A373;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.profileHeader {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.profilePhoto img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid #D4A373;
+}
+
+.profileDetails {
+    flex-grow: 1;
+}
+
+.profileDetails .name {
+    font-size: 1.5em;
+    margin: 0;
+}
+
+.profileDetails .rating,
+.profileDetails .availability {
+    margin: 5px 0;
+}
+
+.editProfile {
+    background-color: #D4A373;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.skills {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.skillsRow {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.skillItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #E9EDC9;
+    border: 1px solid #D4A373;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.removeSkill {
+    background: none;
+    border: none;
+    color: #D4A373;
+    cursor: pointer;
+    font-size: 1.2em;
+}
+
+.addSkill {
+    background-color: #D4A373;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.previousWork {
+    margin-bottom: 20px;
+}
+
+.workGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.workItem {
+    background-color: #E9EDC9;
+    border: 1px solid #D4A373;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.posts {
+    margin-top: 20px;
+}
+
+.addPost {
+/*     
+    color: white; */
+    border: 2px 2px solid red;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    margin-top: 5px;
+    margin-left: 500px;
+}
+.postGrid{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-bottom: 10px;
+}
+
+.postItem {
+    background-color: #D4A373;
+    color: white;
+    padding: 10px;
+    width: 200px;
+    height: 300px;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+}
+.showMorePosts{
+    display: inline-block;
+    align-self: center;
+    margin-left: 490px;
+    color: purple;
+    text-decoration: none;
+    cursor: pointer;
+}
