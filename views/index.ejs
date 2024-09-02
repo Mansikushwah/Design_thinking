@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>SkillConnect</title>
+</head>
+<body>
+    <header>
+        <h1>Welcome to SkillConnect</h1>
+        <% if (user) { %>
+            <p>Hello, <%= user.name %>! <a href="/logout">Logout</a></p>
+        <% } else { %>
+            <a href="/login">Login</a> | <a href="/register">Register</a>
+        <% } %>
+    </header>
+    <main>
+        <!-- Main content goes here -->
+    </main>
+</body>
+</html>
