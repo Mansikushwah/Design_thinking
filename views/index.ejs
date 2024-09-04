@@ -11,6 +11,8 @@
         <h1>Welcome to SkillConnect</h1>
         <% if (user) { %>
             <p>Hello, <%= user.name %>! <a href="/logout">Logout</a></p>
+            <a href="/search_people">People</a>
+            <a href="/search">Showcases</a>
         <% } else { %>
             <a href="/login">Login</a> | <a href="/register">Register</a>
         <% } %>
