@@ -38,6 +38,11 @@ app.use(express.static('public'));
 // Routes
 app.use( require('./routes/index'));
 app.use( require('./routes/auth'));
+app.use('/', require('./routes/about'));
+const contactRoute = require('./routes/contact');
+app.use(contactRoute);
+//app.use('/',require('./routes/contact'));
+
 
 // Start the Server
 const PORT = process.env.PORT || 3000;

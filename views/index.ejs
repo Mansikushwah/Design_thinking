@@ -5,18 +5,259 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/styles.css">
     <title>SkillConnect</title>
+    <style>
+        /* Base Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #FEFAE0;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Navigation Bar */
+        header {
+            background-color: #A8B887; /* Darkened green */
+            padding: 15px 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin: 0;
+            color: #A67850; /* Darkened orange */
+        }
+
+        header p {
+            font-size: 1.2em;
+            margin-top: 10px;
+            color: #555;
+        }
+
+        header a {
+            color: #C9D2A7; /* Darkened green */
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+
+        header a:hover {
+            color: #C0C49B; /* Darkened green for hover */
+        }
+
+        /* Main Content */
+        main {
+            padding: 80px 20px 40px;
+            text-align: center;
+        }
+
+        .hero {
+            background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url('/images/hero-bg.jpg') no-repeat center center/cover;
+            padding: 80px 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .hero h2 {
+            font-size: 2.5em;
+            margin: 0 0 20px;
+            color: #A67850; /* Darkened orange */
+        }
+
+        .hero p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            color: #666;
+        }
+
+        .hero button {
+            background-color: #A67850; /* Darkened orange */
+            color: #FEFAE0;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .hero button:hover {
+            background-color: #8A6140; /* Darkened orange hover */
+            transform: scale(1.05);
+        }
+
+        .features {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .feature {
+            background-color: #C9D2A7; /* Darkened green */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 28%;
+            text-align: center;
+            margin: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .feature:hover {
+            transform: scale(1.05);
+        }
+
+        .feature h3 {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #A67850; /* Darkened orange */
+        }
+
+        .feature p {
+            font-size: 1em;
+            color: #666;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            background-color: #C7B69C; /* Slightly darker tone for balance */
+            padding: 40px 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 40px;
+        }
+
+        .testimonials h2 {
+            font-size: 2em;
+            margin: 0 0 20px;
+            color: #A67850; /* Darkened orange */
+        }
+
+        .testimonial {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .testimonial p {
+            font-size: 1.1em;
+            color: #666;
+            margin: 0;
+        }
+
+        .testimonial cite {
+            display: block;
+            margin-top: 10px;
+            font-style: normal;
+            color: #888;
+        }
+
+        /* Footer Section */
+        footer {
+            background-color: #A8B887; /* Darkened green */
+            padding: 20px;
+            text-align: center;
+            color: #C9D2A7; /* Darkened green */
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        footer h3 {
+            margin: 0 0 10px;
+            font-size: 1.5em;
+            color: #A67850; /* Darkened orange */
+        }
+
+        footer p {
+            font-size: 1em;
+            margin: 0;
+            color: #C9D2A7; /* Darkened green */
+        }
+
+        footer a {
+            color: #C9D2A7; /* Darkened green */
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #C0C49B; /* Darkened green for hover */
+        }
+
+        @media (max-width: 768px) {
+            .feature {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
         <h1>Welcome to SkillConnect</h1>
         <% if (user) { %>
             <p>Hello, <%= user.name %>! <a href="/logout">Logout</a></p>
+            <a href="/search_people">People</a>
+            <a href="/search">Showcases</a>
         <% } else { %>
-            <a href="/login">Login</a> | <a href="/register">Register</a>
+            <a href="/">Home</a> | <a href="/login">Login</a> | <a href="/register">Register</a> | <a href="/about">About Us</a>
         <% } %>
     </header>
+
     <main>
-        <!-- Main content goes here -->
+        <section class="hero">
+            <h2>Connect with Skilled Professionals</h2>
+            <p>Whether you're looking to hire experts or offer your skills, SkillConnect is the perfect platform for you.</p>
+            <% if (!user) { %>
+                <button onclick="window.location.href='/register'">Get Started</button>
+            <% } %>
+        </section>
+
+        <section class="features">
+            <div class="feature">
+                <h3>For Skill Seekers</h3>
+                <p>Find the right professionals for your needs. Browse portfolios, check ratings, and hire with confidence.</p>
+            </div>
+            <div class="feature">
+                <h3>For Skill Providers</h3>
+                <p>Showcase your skills, connect with potential clients, and grow your freelance business.</p>
+            </div>
+            <div class="feature">
+                <h3>Secure and Reliable</h3>
+                <p>Our platform ensures safe transactions and protects your personal information.</p>
+            </div>
+        </section>
+
+        <section class="testimonials">
+            <h2>What Our Users Say</h2>
+            <div class="testimonial">
+                <p>"SkillConnect has transformed the way I find freelance opportunities. The platform is user-friendly and effective."</p>
+                <cite>- Alex R., Skill Seeker</cite>
+            </div>
+            <div class="testimonial">
+                <p>"As a skill provider, I’ve been able to showcase my expertise and connect with great clients. Highly recommend!"</p>
+                <cite>- Jamie L., Skill Provider</cite>
+            </div>
+            <div class="testimonial">
+                <p>"The secure and reliable nature of SkillConnect makes it a go-to platform for both freelancers and clients."</p>
+                <cite>- Taylor M., Platform User</cite>
+            </div>
+        </section>
     </main>
+
+    <footer>
+        <h3>SkillConnect</h3>
+        <p>&copy; 2024 SkillConnect. All rights reserved.</p>
+        <a href="/about">About Us</a> | <a href="/contact">Contact</a> | <a href="/privacy">Privacy Policy</a>
+    </footer>
 </body>
 </html>
