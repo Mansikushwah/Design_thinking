@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <style>/* General Styles */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        
+        header.navbar {
+            width: 100vw;
+            height: 8vh;
+            background-color: #D4A373;
+            color: white;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        header .logo h1 {
+            margin: 0;
+        }
+        
+        .background {
+            width: 100%;
+            height: 50vh;
+        }
+        
+        .background img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .profile {
+            width: 70vw;
+            background-color: #FEFAE0;
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 10px;
+            border: 1px solid #D4A373;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .profileHeader {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .profilePhoto img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 2px solid #D4A373;
+        }
+        
+        .profileDetails {
+            flex-grow: 1;
+        }
+        
+        .profileDetails .name {
+            font-size: 1.5em;
+            margin: 0;
+        }
+        
+        .profileDetails .rating,
+        .profileDetails .availability {
+            margin: 5px 0;
+        }
+        
+        .editProfile {
+            background-color: #D4A373;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .skills {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .skillsRow {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .skillItem {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #E9EDC9;
+            border: 1px solid #D4A373;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        
+        .removeSkill {
+            background: none;
+            border: none;
+            color: #D4A373;
+            cursor: pointer;
+            font-size: 1.2em;
+        }
+        
+        .addSkill {
+            background-color: #D4A373;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .previousWork {
+            margin-bottom: 20px;
+        }
+        
+        .workGrid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        
+        .workItem {
+            background-color: #E9EDC9;
+            border: 1px solid #D4A373;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        
+        .posts {
+            margin-top: 20px;
+        }
+        
+        .addPost {
+        /*     
+            color: white; */
+            border: 2px 2px solid red;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            margin-top: 5px;
+            margin-left: 500px;
+        }
+        .postGrid{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            margin-bottom: 10px;
+        }
+        
+        .postItem {
+            background-color: #D4A373;
+            color: white;
+            padding: 10px;
+            width: 200px;
+            height: 300px;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .showMorePosts{
+            display: inline-block;
+            align-self: center;
+            margin-left: 490px;
+            color: purple;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        </style>
+    <link rel="stylesheet" href="style.css">
+    <script src="app.js"></script>
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <h1>SkillHub</h1>
+        </div>
+    </header>
+    <main>
+        <div class="background">
+            <img src="Background_image.jpg" alt="">
+        </div>
+        <div class="profile">
+            <div class="profileHeader">
+                <div class="profilePhoto">
+                    <img src="profile_photo.jpg" alt="Profile Photo">
+                </div>
+                <div class="profileDetails">
+                    <h2 class="name">Kritika Sharma</h2>
+                    <p class="availability">Available for Work: Yes</p>
+                    <p class="rating">Rating: ★★★★☆</p>
+                </div>
+                <button class="editProfile">Edit Profile</button>
+            </div>
+            <div class="skills">
+                <h3>Skills</h3>
+                <div class="skillsRow">
+                    <div class="skillItem">
+                        <span>JavaScript</span>
+                        <button class="removeSkill">✖</button>
+                    </div>
+                    <div class="skillItem">
+                        <span>CSS</span>
+                        <button class="removeSkill">✖</button>
+                    </div>
+                    <button class="addSkill">Add Skill</button>
+                </div>
+            </div>
+            <div class="previousWork">
+                <h3>Previous Work</h3>
+                <div class="workGrid">
+                    <div class="workItem">Work 1</div>
+                    <div class="workItem">Work 2</div>
+                    <div class="workItem">Work 3</div>
+                    <div class="workItem">Work 4</div>
+                </div>
+            </div>
+            <div class="posts">
+                <h3>Posts</h3>
+                <div class="postGrid">
+                    <div class="postItem">Post 1</div>
+                    <div class="postItem">Post 2</div>
+                    <div class="postItem">Post 3</div>
+                    <div class="postItem">Post 4</div>
+                </div>
+                <div class="postsHeader">
+                    <button class="addPost">Add Post</button>
+                </div>
+                <a href="#" class="showMorePosts">Show More Posts</a>
+            </div>
+        </div>
+    </main>
+    <footer></footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+    const showcasesSection = document.getElementById('showcases');
+    const postsSection = document.getElementById('posts');
+    const peopleSection = document.getElementById('people');
+
+    const showcasesLink = document.querySelector('nav ul li a[href="#showcases"]');
+    const postsLink = document.querySelector('nav ul li a[href="#posts"]');
+    const peopleLink = document.querySelector('nav ul li a[href="#people"]');
+
+    showcasesLink.addEventListener('click', function () {
+        showcasesSection.style.display = 'block';
+        postsSection.style.display = 'none';
+        peopleSection.style.display = 'none';
+    });
+
+    postsLink.addEventListener('click', function () {
+        showcasesSection.style.display = 'none';
+        postsSection.style.display = 'block';
+        peopleSection.style.display = 'none';
+    });
+
+    peopleLink.addEventListener('click', function () {
+        showcasesSection.style.display = 'none';
+        postsSection.style.display = 'none';
+        peopleSection.style.display = 'block';
+    });
+
+    // By default, display the showcases section
+    showcasesSection.style.display = 'block';
+    postsSection.style.display = 'none';
+    peopleSection.style.display = 'none';
+});
+
+    </script>
+</body>
+</html>
