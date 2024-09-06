@@ -204,10 +204,12 @@
 <body>
     <header>
         <h1>Welcome to SkillConnect</h1>
+        <div class="circle"><a href="/profile">Profile</a></div>
         <% if (user) { %>
             <p>Hello, <%= user.name %>! <a href="/logout">Logout</a></p>
             <a href="/search_people">People</a>
             <a href="/search">Showcases</a>
+            <a href="/post">Post</a>
         <% } else { %>
             <a href="/">Home</a> | <a href="/login">Login</a> | <a href="/register">Register</a> | <a href="/about">About Us</a>
         <% } %>
