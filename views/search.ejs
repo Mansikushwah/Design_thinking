@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SkillConnect - People</title>
+    <title>SkillConnect - Home</title>
     <style>
         body {
     font-family: Arial, sans-serif;
@@ -115,55 +115,61 @@ header button:hover {
 </head>
 <body>
     <header>
-        <button id="notificationsBtn" onclick="window.location.href='index.html'">Notifications</button>
-        <button id="showcasesBtn" onclick="window.location.href='index.html'">Showcases</button>
-        <button id="jobPostsBtn" onclick="window.location.href='index.html'">Job Posts</button>
-        <button id="peopleBtn">People</button>
+        <button id="notificationsBtn">Notifications</button>
+        <button id="showcasesBtn">Showcases</button>
+        <button id="jobPostsBtn">Job Posts</button>
+        <button id="peopleBtn" onclick="window.location.href='people.html'">People</button>
     </header>
 
     <div class="container">
         <div class="search-container">
-            <input type="text" id="peopleSkillSearch" placeholder="Search by skill...">
-            <select id="peopleLocationRadius">
+            <input type="text" id="skillSearch" placeholder="Search by skill...">
+            <select id="locationRadius">
                 <option value="5">Within 5 km</option>
                 <option value="10">Within 10 km</option>
                 <option value="15">Within 15 km</option>
             </select>
         </div>
 
-        <div id="peopleContainer">
-            <!-- Person 1 -->
-            <div class="showcase" data-skill="mehendi designing" data-location="8">
-                <img src="images/arti.jpg" alt="Arti Sharma">
-                <h3>Arti Sharma</h3>
+        <div id="showcaseContainer">
+            <!-- Showcase 1 -->
+            <div class="showcase" data-skill="web development" data-location="8">
+                <img src="mehendi.jpg" alt="Portfolio Website">
+                <button class="like-button">Like</button>
+                <h3>Arabic Diva</h3>
                 <div class="details">
+                    <span>Skill Seeker: Arti Sharma</span>
                     <span>Skill: Mehendi Designing</span>
-                    <span>Email: arti.sharma@example.com</span>
+                    <span>Date: 2024-08-31</span>
                 </div>
             </div>
-            <!-- Person 2 -->
+            <!-- Showcase 2 -->
             <div class="showcase" data-skill="graphic design" data-location="12">
-                <img src="images/jane.jpg" alt="Jane Smith">
-                <h3>Jane Smith</h3>
+                <img src="images/logo-design.jpg" alt="Logo Design">
+                <button class="like-button">Like</button>
+                <h3>Logo Design</h3>
                 <div class="details">
+                    <span>Skill Seeker: Jane Smith</span>
                     <span>Skill: Graphic Design</span>
-                    <span>Email: jane.smith@example.com</span>
+                    <span>Date: 2024-08-25</span>
                 </div>
             </div>
-            <!-- Person 3 -->
+            <!-- Showcase 3 -->
             <div class="showcase" data-skill="photography" data-location="5">
-                <img src="images/ravi.jpg" alt="Ravi Kumar">
-                <h3>Ravi Kumar</h3>
+                <img src="images/photography.jpg" alt="Photography Project">
+                <button class="like-button">Like</button>
+                <h3>Photography Magic</h3>
                 <div class="details">
+                    <span>Skill Seeker: Ravi Kumar</span>
                     <span>Skill: Photography</span>
-                    <span>Email: ravi.kumar@example.com</span>
+                    <span>Date: 2024-08-20</span>
                 </div>
             </div>
         </div>
     </div>
 
     <script >
-        // Filter functionality for the "People" page
+        
 document.getElementById('peopleSkillSearch').addEventListener('input', function() {
     filterPeople();
 });
