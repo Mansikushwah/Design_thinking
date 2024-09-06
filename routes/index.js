@@ -7,6 +7,12 @@ router.get('/', (req, res) => {
 router.get('/search_people', (req, res) => {
     res.render('search_people');
 });
+router.get('/post', (req, res) => {
+    res.render('post');
+});
+router.get('/profile', (req, res) => {
+    res.render('profile');
+});
 router.get('/search', (req, res) => {
     res.render('search');
 });
