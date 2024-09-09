@@ -1,1 +1,1 @@
-I have created profile page using HTML and CSS for a website named skillConnect which is used to connect employers with skill provider.
+I have created a website which gives you platform to connect skillprovider and skillseeker of non technical skills
