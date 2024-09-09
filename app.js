@@ -11,7 +11,8 @@ const app = express();
 
 // Body Parser
 app.use(bodyParser.urlencoded({ extended: true }));
-
+app.use(bodyParser.json());
+app.use(express.json());
 // EJS
 app.set('view engine', 'ejs');
 
@@ -42,7 +43,10 @@ app.use('/', require('./routes/about'));
 const contactRoute = require('./routes/contact');
 app.use(contactRoute);
 //app.use('/',require('./routes/contact'));
-
+app.use((req, res, next) => {
+    console.log(`Request URL: ${req.url}`);
+    next();
+});
 
 // Start the Server
 const PORT = process.env.PORT || 3000;

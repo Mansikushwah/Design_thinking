@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Showcase Details</title>
+</head>
+<body>
+    <h1>Showcase Details</h1>
+    <h2><%= showcase.title %></h2>
+    <p><%= showcase.description %></p>
+
+    <% if (showcase.image) { %>
+        <img src="<%= showcase.image %>" alt="<%= showcase.title %>" width="300" />
+    <% } else { %>
+        <p>No image available.</p>
+    <% } %>
+</body>
+</html>

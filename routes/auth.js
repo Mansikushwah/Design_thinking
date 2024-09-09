@@ -30,7 +30,7 @@ router.post('/register', (req, res) => {
                 console.error('Error inserting user:', err);
                 return res.status(500).send('Server error');
             }
-            res.send('User registered successfully');
+            res.redirect('/login');
         });
     });
 });

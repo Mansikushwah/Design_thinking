@@ -11,10 +11,11 @@ const User = {
         db.query(sql, [email], callback);
     },
     findById: (id, callback) => {
-        const sql = 'SELECT * FROM users WHERE id = ?';
+        // Use `user_id` instead of `id`
+        const sql = 'SELECT * FROM users WHERE user_id = ?';
         db.query(sql, [id], (err, results) => {
             if (err) return callback(err, null);
-            return callback(null, results[0]); // Returns the first matching user
+            return callback(null, results[0]); // Return the first matching user
         });
     }
 };
