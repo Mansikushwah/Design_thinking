@@ -489,10 +489,15 @@ button:hover {
     </main>
     <script>
 // Handle form submission
-document.getElementById('addShowcaseForm').addEventListener('submit', function(event) {
-    event.preventDefault();
 
-    const title = document.getElementById('title').value;
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Open the modal
+    document.getElementById('addShowcaseForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    console.log("kritika");
+    const title = document.getElementById('title').value;  
     const description = document.getElementById('description').value;
     const imageFile = document.getElementById('image').files[0];
     const skills = Array.from(document.getElementById('skills').selectedOptions).map(option => option.value);
@@ -502,7 +507,6 @@ document.getElementById('addShowcaseForm').addEventListener('submit', function(e
     formData.append('description', description);
     formData.append('image', imageFile);
     formData.append('skills', JSON.stringify(skills));
-
     // Send data to the server
     fetch('/add_showcase', {
         method: 'POST',
@@ -521,10 +525,6 @@ document.getElementById('addShowcaseForm').addEventListener('submit', function(e
         console.error('Error:', error);
     });
 });
-
-
-document.addEventListener('DOMContentLoaded', function () {
-    // Open the modal
 document.getElementById('addShowcaseBtn').addEventListener('click', function() {
     document.getElementById('addShowcaseModal').style.display = 'block';
     populateSkills(); // Function to populate skills

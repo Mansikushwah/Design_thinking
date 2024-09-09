@@ -123,39 +123,6 @@ router.get('/showcase/:id', async (req, res) => {
     }
 });
 
-// Handle the POST request to '/add_showcase' with multer middleware
-router.post('/add_showcase', upload.single('image'), (req, res) => {
-    console.log('Request received at /add-showcase');
-    console.log(req.body);  // Log the request body (title, description)
-
-    const { title, description } = req.body;
-    const file = req.file;  // File object handled by multer
-
-    // Check if the file has been uploaded successfully
-    if (file) {
-        const imagePath = `/uploads/${file.filename}`;  // Path to save in the database
-        console.log('File upload successful:', imagePath);
-
-        // SQL query to insert the showcase data
-        const sql = 'INSERT INTO showcases (title, description, image_url) VALUES (?, ?, ?)';
-        db.query(sql, [title, description, imagePath], (err, result) => {
-            if (err) {
-                console.error('Error inserting showcase:', err);
-                res.status(500).send('Database error');
-                return;
-            }
-            console.log('Showcase added to the database:', result);
-            res.send('Showcase added successfully!');
-        });
-    } else {
-        console.log('File upload failed');
-        res.status(400).send('File upload failed');
-    }
-
-    console.log('Title:', title);
-    console.log('Description:', description);
-    console.log('File:', file);  // Should log the file object if successful
-});
 
 
 // Render the 'post' page
@@ -183,7 +150,8 @@ router.get('/profile', (req, res) => {
 
 router.post('/add_showcase', upload.single('image'), (req, res) => {
     const { title, description, skills } = req.body;
-    const userId = req.session.user_id; // Assuming user_id is stored in session
+    const userId = req.session.passport.user; // Assuming user_id is stored in session
+    console.log(userId);  
     const imagePath = req.file ? req.file.filename : null;
 
     const sql = 'INSERT INTO showcases (user_id, title, description, image_url) VALUES (?, ?, ?, ?)';
