@@ -3,12 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
-    <link rel="stylesheet" href="/styles.css"> <!-- Optional for styling -->
+    <title>Login</title>
+    <style>
+        /* Base Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #F1F6F9;
+            color: #212A3E;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h2 {
+            color: #394867;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            background-color: #F1F6F9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        div {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #9BA4B5;
+            border-radius: 5px;
+            background-color: #F1F6F9;
+            color: #212A3E;
+            font-size: 1em;
+        }
+
+        button {
+            background-color: #394867;
+            color: #F1F6F9;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #212A3E;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #394867;
+        }
+    </style>
 </head>
 <body>
-    <h2>Login</h2>
     <form action="/login" method="POST">
+        <h2>Login</h2>
         <div>
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
