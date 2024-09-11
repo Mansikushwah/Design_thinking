@@ -18,7 +18,9 @@
         header {
             background-color: #394867; /* Dark blue for header */
             padding: 15px 20px;
-            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             position: fixed;
             width: 100%;
@@ -28,25 +30,25 @@
         }
 
         header h1 {
-            font-size: 2.5em;
+            /* font-size: 2.5em; */
             margin: 0;
-            color: #F1F6F9; /* Light color for text */
+            color: #9BA4B5; /* Light color for text */
         }
 
-        header p, header a {
-            font-size: 1.2em;
-            margin-top: 10px;
+        header nav a {
+            /* font-size: 1.2em; */
+            margin-left: 15px;
             color: #F1F6F9; /* Light color for links */
-        }
-
-        header a {
             text-decoration: none;
             font-weight: bold;
-            margin: 0 15px;
             transition: color 0.3s ease;
         }
 
-        header a:hover {
+        header nav {
+            padding-right: 2vw;
+        }
+
+        header nav a:hover {
             color: #9BA4B5; /* Light gray for hover effect */
         }
 
@@ -146,11 +148,15 @@
 <body>
     <header>
         <h1>About SkillConnect</h1>
-        <% if (user) { %>
-            <p>Hello, <%= user.name %>! <a href="/logout">Logout</a></p>
-        <% } else { %>
-            <a href="/">Home</a> | <a href="/login">Login</a> | <a href="/register">Register</a> 
-        <% } %>
+        <nav>
+            <% if (user) { %>
+                <p>Hello, <%= user.name %>! <a href="/logout">Logout</a></p>
+            <% } else { %>
+                <a href="/">Home</a>
+                <a href="/login">Login</a>
+                <a href="/register">Register</a>
+            <% } %>
+        </nav>
     </header>
 
     <main>
