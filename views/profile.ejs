@@ -157,7 +157,6 @@
             cursor: pointer;
             margin-bottom: 10px;
             margin-top: 5px;
-            margin-left: 500px;
         }
         .postGrid{
             display: flex;
@@ -378,7 +377,7 @@ button:hover {
                     </form>
                 </div>
                 
-                <div id="editProfileModal" class="modal" style="display: none;">
+                <div id="editProfileModal" class="modal">
                     <div class="modal-content">
                         <span class="close" id="closeModal">&times;</span>
                         <h2>Edit Profile</h2>
@@ -413,19 +412,18 @@ button:hover {
             </div>
 
             <!-- Modal for Adding Skills -->
-<div id="skillModal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2>Select Skills</h2>
-        <form id="addSkillForm">
-            <div id="skillList">
+            <div id="skillModal" class="modal">
+                <div class="modal-content">
+                    <span class="skillClose" class="close">&times;</span>
+                    <h2>Select Skills</h2>
+                    <form id="addSkillForm">
+                        <div id="skillList">
                 <!-- Skill options will be dynamically added here -->
+                        </div>
+                        <button type="submit">Add Skills</button>
+                    </form>
+                </div>
             </div>
-            <button type="submit">Add Skills</button>
-        </form>
-    </div>
-</div>
-
             <div class="skills">
                 <h3>Skills</h3>
                 <div class="skillsRow">
@@ -445,14 +443,29 @@ button:hover {
             <div class="showcases">
                 <h3>Showcases</h3>
                 <div class="showcaseGrid" id="showcaseGrid">
+                    <% if (showcases.length > 0) { %>
+                        <% showcases.forEach(showcase => { %>
+                            <div class="skillItem">
+                                <span><%= showcase.title %></span>
+                                <div><%= showcase.description %></div>
+                                <% if (showcase.image_url) { %> <!-- Check if the image_url exists -->
+                                    <img src="<%= showcase.image_url %>" alt="Showcase Image" style="max-width: 200px; height: auto;"> <!-- Display the image -->
+                                <% } else { %>
+                                    <p>No image available</p> <!-- Message if no image is available -->
+                                <% } %>
+                                <button class="removeShowcase" data-showcase-id="<%= showcase.showcase_id %>">✖</button>
+                            </div>
+                        <% }) %>
+                    <% } else { %>
+                        <p>No showcases added yet.</p>
+                    <% } %>
                     <!-- Showcase items will be dynamically added here -->
                 </div>
                 <button id="addShowcaseBtn">Add Showcase</button>
-                <button id="showMoreBtn">Show More</button>
             </div>
             <!-- Modal for Adding Showcase -->
 <!-- Modal for Adding Showcase -->
-<div id="addShowcaseModal" class="modal">
+            <div id="addShowcaseModal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
         <h2>Add New Showcase</h2>
@@ -470,40 +483,186 @@ button:hover {
             <button type="submit">Add Showcase</button>
         </form>
     </div>
-</div>
+            </div>
 
             <div class="posts">
                 <h3>Posts</h3>
-                <div class="postGrid">
-                    <div class="postItem">Post 1</div>
-                    <div class="postItem">Post 2</div>
-                    <div class="postItem">Post 3</div>
-                    <div class="postItem">Post 4</div>
+                    <div class="postGrid" id="postGrid">
+                        <% if (posts.length > 0) { %>
+                            <% posts.forEach(post => { %>
+                                <div class="postItem">
+                                    <h4><%= post.title %></h4>
+                                    <div><%= post.content %></div>
+                                    <button class="removePost" data-post-id="<%= post.post_id %>">✖</button>
+                                </div>
+                            <% }) %>
+                        <% } else { %>
+                            <p>No posts added yet.</p>
+                        <% } %>
+                    </div>
+                        <button class="addPost">Add Post</button>
+                <!-- <a href="#" class="showMorePosts">Show More Posts</a> -->
+            </div>
+
+            <div id="addPostModal" class="modal">
+                <div class="modal-content">
+                    <span id="closePostModal" class="close"> &times;</span>
+                <form id="addPostForm">
+                    <input type="text" id="postTitle" name="title" placeholder="Post Title" required>
+                    <textarea id="postContent" name="content" placeholder="Post Content" required></textarea>
+                    <select id="postSkills" name="skills" multiple required>
+                        <!-- Dynamically populate with skill options -->
+                    </select>
+                    <button type="submit">Add Post</button>
+                </form>
+
                 </div>
-                <div class="postsHeader">
-                    <button class="addPost">Add Post</button>
-                </div>
-                <a href="#" class="showMorePosts">Show More Posts</a>
+                
             </div>
         </div>
     </main>
     <script>
 // Handle form submission
-document.getElementById('addShowcaseForm').addEventListener('submit', function(event) {
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelector('.addPost').addEventListener('click', function() {
+    document.getElementById('addPostModal').style.display = 'block';
+    fetch('/skills')
+    .then(response => response.json())
+    .then(data => {
+        const skillsSelect = document.getElementById('postSkills');
+        skillsSelect.innerHTML = '';
+        data.skills.forEach(skill => {
+            const option = document.createElement('option');
+            option.value = skill.skill_id;
+            option.textContent = skill.skill_name;
+            skillsSelect.appendChild(option);
+        });
+    });
+});
+    document.getElementById('closePostModal').addEventListener('click', function () {
+            document.getElementById('addPostModal').style.display = 'none';
+        });
+    document.getElementById('addPostForm').addEventListener('submit', function(event) {
     event.preventDefault();
+
+    const title = document.getElementById('postTitle').value;
+    const content = document.getElementById('postContent').value;
+    const skills = Array.from(document.getElementById('postSkills').selectedOptions).map(option => option.value);
+
+    const formData = {
+        title: title,
+        content: content,
+        skills: JSON.stringify(skills)
+    };
+
+    fetch('/add_post', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Code to add the new post to the grid dynamically
+            document.getElementById('addPostModal').style.display = 'none';
+            document.getElementById('addPostForm').reset();
+        } else {
+            alert('Failed to add post.');
+        }
+    })
+    .catch(error => {
+        console.error('Error adding post:', error);
+    });
+});
+    document.querySelectorAll('.postItem .removePost').forEach(button => {
+    button.addEventListener('click', function() {
+        const postId = this.getAttribute('data-post-id');
+
+        // Confirm deletion
+        if (!confirm('Are you sure you want to delete this post?')) {
+            return;
+        }
+
+        // Send a request to delete the post
+        fetch('/delete_post', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ postId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert(data.message);
+                // this.parentElement.remove(); // Remove the post from the page
+            } else {
+                alert(data.message || 'Failed to delete post.');
+            }
+        })
+        .catch(error => {
+            console.error('Error deleting post:', error);
+        });
+    });
+});
+
+    document.querySelectorAll('.removeShowcase').forEach(button => {
+    button.addEventListener('click', function() {
+        const showcaseId = this.getAttribute('data-showcase-id');
+
+        // Confirm deletion
+        if (!confirm('Are you sure you want to delete this showcase?')) {
+            return;
+        }
+
+        // Send a request to delete the showcase
+        fetch('/delete_showcase', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ showcaseId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert(data.message);
+                // Optionally remove the deleted showcase from the DOM
+                // this.parentElement.remove(); // Remove the showcase from the page
+            } else {
+                alert(data.message || 'Failed to delete showcase.');
+            }
+        })
+        .catch(error => {
+            console.error('Error deleting showcase:', error);
+        });
+    });
+});
+    document.getElementById('addShowcaseForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent the default form submission behavior
 
     const title = document.getElementById('title').value;
     const description = document.getElementById('description').value;
     const imageFile = document.getElementById('image').files[0];
     const skills = Array.from(document.getElementById('skills').selectedOptions).map(option => option.value);
 
+    // Create a FormData object to handle the form submission with a file
     const formData = new FormData();
     formData.append('title', title);
     formData.append('description', description);
-    formData.append('image', imageFile);
-    formData.append('skills', JSON.stringify(skills));
 
-    // Send data to the server
+    if (imageFile) {
+        formData.append('image', imageFile); // Append the image file if present
+    }
+
+    formData.append('skills', JSON.stringify(skills)); // Convert skills array to a JSON string and append it
+
+    // Send data to the server via fetch API
     fetch('/add_showcase', {
         method: 'POST',
         body: formData
@@ -511,32 +670,21 @@ document.getElementById('addShowcaseForm').addEventListener('submit', function(e
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            addShowcaseToGrid(data.showcase); // Function to add showcase to the grid
-            document.getElementById('addShowcaseModal').style.display = 'none';
+            // addShowcaseToGrid(data.showcase); // Function to add showcase to the grid dynamically
+            document.getElementById('addShowcaseModal').style.display = 'none'; // Hide the modal
+            document.getElementById('addShowcaseForm').reset(); // Reset the form after successful submission
         } else {
-            alert('Failed to add showcase.');
+            alert('Failed to add showcase: ' + data.message); // Display error message if the addition fails
         }
     })
     .catch(error => {
-        console.error('Error:', error);
+        console.error('Error adding showcase:', error);
     });
 });
 
-
-document.addEventListener('DOMContentLoaded', function () {
     // Open the modal
 document.getElementById('addShowcaseBtn').addEventListener('click', function() {
     document.getElementById('addShowcaseModal').style.display = 'block';
-    populateSkills(); // Function to populate skills
-});
-
-// Close the modal
-document.querySelector('#addShowcaseModal .close').addEventListener('click', function() {
-    document.getElementById('addShowcaseModal').style.display = 'none';
-});
-
-// Function to populate skills dropdown
-function populateSkills() {
     fetch('/skills')
     .then(response => response.json())
     .then(data => {
@@ -549,20 +697,25 @@ function populateSkills() {
             skillsSelect.appendChild(option);
         });
     });
-}
+});
+
+// Close the modal
+document.querySelector('#addShowcaseModal .close').addEventListener('click', function() {
+    document.getElementById('addShowcaseModal').style.display = 'none';
+});
 
 // Function to add showcase to the grid
-function addShowcaseToGrid(showcase) {
-    const showcaseGrid = document.getElementById('showcaseGrid');
-    const showcaseItem = document.createElement('div');
-    showcaseItem.className = 'showcaseItem';
-    showcaseItem.innerHTML = `
-        <h4>${showcase.title}</h4>
-        <p>${showcase.description}</p>
-        <img src="${showcase.image_url}" alt="${showcase.title}" style="width:100%;">
-    `;
-    showcaseGrid.appendChild(showcaseItem);
-}
+// function addShowcaseToGrid(showcase) {
+//     const showcaseGrid = document.getElementById('showcaseGrid');
+//     const showcaseItem = document.createElement('div');
+//     showcaseItem.className = 'showcaseItem';
+//     showcaseItem.innerHTML = `
+//         <h4>${showcase.title}</h4>
+//         <p>${showcase.description}</p>
+//         <img src="${showcase.image_url}" alt="${showcase.title}" style="width:100%;">
+//     `;
+//     showcaseGrid.appendChild(showcaseItem);
+// }
 
 
     const profilePhoto = document.getElementById('profilePhoto');
@@ -660,9 +813,9 @@ function addShowcaseToGrid(showcase) {
         console.error('Error updating profile:', error);
     });
 });
-const skillModal = document.getElementById('skillModal');
+    const skillModal = document.getElementById('skillModal');
     const openSkillModalButton = document.querySelector('.addSkill');
-    const closeModalButton = document.querySelector('.modal .close');
+    const closeModalButton = document.querySelector('.modal .skillClose');
     const skillList = document.getElementById('skillList');
 
     openSkillModalButton.addEventListener('click', function () {
