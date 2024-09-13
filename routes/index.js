@@ -67,6 +67,63 @@ router.post('/update_profile', (req, res) => {
         res.json({ success: true });
     });
 });
+router.post('/delete_showcase', (req, res) => {
+    const { showcaseId } = req.body;
+    const userId = req.user.user_id; // Assume this is obtained from your authentication middleware
+
+    // Fetch the current showcase image path from the database
+    const fetchShowcaseSql = 'SELECT image_url FROM showcases WHERE showcase_id = ? AND user_id = ?';
+    db.query(fetchShowcaseSql, [showcaseId, userId], (err, results) => {
+        if (err) {
+            console.error('Error fetching showcase image:', err);
+            return res.json({ success: false, message: 'Failed to fetch showcase image' });
+        }
+
+        const imagePath = results[0]?.image_url;
+        if (imagePath) {
+            fs.unlink(path.join(__dirname, '..', imagePath), (err) => {
+                if (err) {
+                    console.error('Error deleting the showcase image:', err);
+                    return res.json({ success: false, message: 'Failed to delete showcase image' });
+                }
+            });
+            const updateImageUrlSql = 'UPDATE showcases SET image_url = NULL WHERE showcase_id = ?';
+                db.query(updateImageUrlSql, [showcaseId], (err) => {
+                    if (err) {
+                        console.error('Error setting image URL to NULL:', err);
+                        return res.status(500).json({ success: false, message: 'Error setting image URL to NULL.' });
+                    }
+         });
+        }
+
+        // Delete the image from the file system
+        
+
+            // Delete from showcase_skills table first
+            const deleteSkillsSql = 'DELETE FROM showcase_skills WHERE showcase_id = ?';
+            db.query(deleteSkillsSql, [showcaseId], (err) => {
+                if (err) {
+                    console.error('Error deleting showcase skills:', err);
+                    return res.status(500).json({ success: false, message: 'Error deleting showcase skills.' });
+                }
+
+                // Then delete the showcase record
+                const deleteShowcaseSql = 'DELETE FROM showcases WHERE showcase_id = ?';
+                db.query(deleteShowcaseSql, [showcaseId], (err, result) => {
+                    if (err) {
+                        console.error('Error deleting showcase record:', err);
+                        return res.status(500).json({ success: false, message: 'Error deleting showcase record.' });
+                    }
+
+                    if (result.affectedRows === 0) {
+                        return res.status(404).json({ success: false, message: 'Showcase not found.' });
+                    }
+
+                    res.json({ success: true, message: 'Showcase and image deleted successfully.' });
+                });
+            });
+        });
+    });
 
 router.post('/delete_profile_photo', (req, res) => {
     const userId = req.user.user_id; // Assume this is obtained from your authentication middleware
@@ -106,25 +163,6 @@ router.post('/delete_profile_photo', (req, res) => {
 });
 
 
-router.get('/showcase/:id', async (req, res) => {
-    const showcaseId = req.params.id;
-
-    try {
-        const [rows] = await db.promise().query('SELECT * FROM showcases WHERE showcase_id = ?', [showcaseId]);
-
-        if (rows.length > 0) {
-            res.render('showcase', { showcase: rows[0] });
-        } else {
-            res.status(404).send('Showcase not found');
-        }
-    } catch (error) {
-        console.error('Error fetching showcase:', error);
-        res.status(500).send('Server error');
-    }
-});
-
-
-
 // Render the 'post' page
 router.get('/post', (req, res) => {
     res.render('post');
@@ -133,26 +171,33 @@ router.get('/post', (req, res) => {
 // Render the 'profile' page
 router.get('/profile', (req, res) => {
     const user = req.user; 
-    console.log("thsii");
-    console.log(user);
-    // Fetch user details
-    console.log(user.user_id)
         // Fetch skills for this user
         db.query('SELECT s.skill_id, s.skill_name FROM skills s JOIN user_skills us ON s.skill_id = us.skill_id WHERE us.user_id = ?', [user.user_id], (err, skillResults) => {
             if (err) throw err;
-
+        
             const skills = skillResults;
-            console.log(skills);
-            // Render profile page with user and skills data
-            res.render('profile', { user, skills });
+        
+            // Query to get showcases for the user
+            db.query('SELECT showcase_id, title, description, image_url, created_at FROM showcases WHERE user_id = ?', [user.user_id], (err, showcaseResults) => {
+                if (err) throw err;
+        
+                const showcases = showcaseResults;
+                db.query('SELECT post_id, title, content, created_at FROM posts WHERE user_id = ?', [user.user_id], (err, postResults) => {
+                    if (err) throw err;
+            
+                    const posts = postResults;
+            
+                    // Render profile page with user, skills, and showcases data
+                    res.render('profile', { user, skills, showcases, posts });
+                });
+            });
         });
 });
 
 router.post('/add_showcase', upload.single('image'), (req, res) => {
     const { title, description, skills } = req.body;
-    const userId = req.session.passport.user; // Assuming user_id is stored in session
-    console.log(userId);  
-    const imagePath = req.file ? req.file.filename : null;
+    const userId = req.user.user_id; 
+    const imagePath = path.join('/uploads', req.file.filename);
 
     const sql = 'INSERT INTO showcases (user_id, title, description, image_url) VALUES (?, ?, ?, ?)';
     db.query(sql, [userId, title, description, imagePath], (err, results) => {
@@ -207,7 +252,66 @@ router.post('/remove_skill', (req, res) => {
         res.json({ success: true });
     });
 });
+router.post('/add_post', (req, res) => {
+    const { title, content, skills } = req.body;
+    const userId = req.user.user_id; // Assume this is obtained from your authentication middleware
 
+    // Insert the new post into the database
+    const sql = 'INSERT INTO posts (user_id, title, content) VALUES (?, ?, ?)';
+    db.query(sql, [userId, title, content], (err, results) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).json({ success: false, message: 'Error adding post.' });
+        }
+
+        const postId = results.insertId;
+
+        // Insert skills associated with the post
+        if (skills.length > 0) {
+            const skillSql = 'INSERT INTO post_skills (post_id, skill_id) VALUES ?';
+            const skillValues = JSON.parse(skills).map(skill => [postId, skill]);
+
+            db.query(skillSql, [skillValues], (err) => {
+                if (err) {
+                    console.error('Database error:', err);
+                    return res.status(500).json({ success: false, message: 'Error associating skills with post.' });
+                }
+
+                res.json({ success: true, post: { title, content, skills } });
+            });
+        } else {
+            res.json({ success: true, post: { title, content, skills: [] } });
+        }
+    });
+});
+router.post('/delete_post', (req, res) => {
+    const { postId } = req.body;
+    const userId = req.user.user_id; // Assume this is obtained from your authentication middleware
+
+    // Delete associated skills first
+    const deleteSkillsSql = 'DELETE FROM post_skills WHERE post_id = ?';
+    db.query(deleteSkillsSql, [postId], (err) => {
+        if (err) {
+            console.error('Error deleting post skills:', err);
+            return res.status(500).json({ success: false, message: 'Error deleting post skills.' });
+        }
+
+        // Then delete the post
+        const deletePostSql = 'DELETE FROM posts WHERE post_id = ? AND user_id = ?';
+        db.query(deletePostSql, [postId, userId], (err, result) => {
+            if (err) {
+                console.error('Error deleting post:', err);
+                return res.status(500).json({ success: false, message: 'Error deleting post.' });
+            }
+
+            if (result.affectedRows === 0) {
+                return res.status(404).json({ success: false, message: 'Post not found.' });
+            }
+
+            res.json({ success: true, message: 'Post deleted successfully.' });
+        });
+    });
+});
 
 // Render the 'search' page
 router.get('/search', (req, res) => {
