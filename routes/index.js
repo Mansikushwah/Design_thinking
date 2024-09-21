@@ -28,14 +28,77 @@ router.get('/', (req, res) => {
 });
 
 // Render the 'search_people' page
+// Route to handle the search query
+// Route to render the initial search_people page
 router.get('/search_people', (req, res) => {
-    res.render('search_people',{ user: req.user });
+    const sql = `
+        SELECT u.username, u.email, u.profile_photo_url AS profile_photo_url, 
+               GROUP_CONCAT(s.skill_name SEPARATOR ', ') AS skills
+        FROM users u
+        JOIN user_skills us ON u.user_id = us.user_id
+        JOIN skills s ON us.skill_id = s.skill_id
+        GROUP BY u.user_id, u.username, u.email, u.profile_photo_url`;
+
+    db.query(sql, [], (err, results) => {
+        if (err) {
+            console.error('Error fetching people:', err);
+            return res.status(500).send('Server error');
+        }
+
+        // Render the EJS template with the initial people data
+        res.render('search_people', { user: req.user, people: results });
+    });
 });
+
+// AJAX route for fetching filtered people based on skill
+router.get('/people/search', (req, res) => {
+    const searchQuery = req.query.skill || ''; // Get the search query from the request
+
+    const sql = `
+        SELECT u.username, u.email, u.profile_photo_url AS profile_photo_url, 
+               GROUP_CONCAT(s.skill_name SEPARATOR ', ') AS skills
+        FROM users u
+        JOIN user_skills us ON u.user_id = us.user_id
+        JOIN skills s ON us.skill_id = s.skill_id
+        WHERE s.skill_name LIKE ?
+        GROUP BY u.user_id, u.username, u.email, u.profile_photo_url`;
+
+    db.query(sql, [`%${searchQuery}%`], (err, results) => {
+        if (err) {
+            console.error('Error fetching people:', err);
+            return res.status(500).send('Server error');
+        }
+
+        // Build the HTML to send back to the client
+        let html = '';
+        if (results.length > 0) {
+            results.forEach(person => {
+                html += `
+                    <div class="person-card">
+                        <img src="${person.profile_photo_url || '/images/default_profile_photo.jpg'}" alt="${person.username}">
+                        <h3>${person.username}</h3>
+                        <p>Skills: ${person.skills}</p>
+                        <p>Email: ${person.email}</p>
+                    </div>`;
+            });
+        } else {
+            html = '<p>No people found with that skill.</p>';
+        }
+
+        res.send(html); // Send the generated HTML back to the client
+    });
+});
+
+
+
+
+
 
 // Render the 'add_showcase' page
 router.get('/add_showcase', (req, res) => {
     res.render('add_showcase',{ user: req.user });
 });
+
 
 router.post('/upload_profile_photo', upload.single('profile_photo'), (req, res) => {
     const userId = req.user.user_id; // Assuming user is authenticated and user data is available

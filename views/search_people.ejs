@@ -3,190 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SkillConnect - People</title>
+    <title>SkillConnect - People Search</title>
     <style>
         body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-}
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
 
-header {
-    background-color: #333;
-    color: white;
-    padding: 10px 20px;
-    text-align: right;
-}
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
 
-header button {
-    background-color: #444;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    margin: 0 5px;
-    cursor: pointer;
-}
+        .search-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-header button:hover {
-    background-color: #555;
-}
+        .search-container input[type="text"] {
+            width: 70%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
 
-.container {
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 0 20px;
-}
+        .search-container button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-left: 10px;
+            border: none;
+            background-color: #D4A373;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
 
-.search-container {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
+        .search-container button:hover {
+            background-color: #B08968;
+        }
 
-.search-container input[type="text"] {
-    width: 70%;
-    padding: 10px;
-    font-size: 16px;
-}
+        #peopleContainer {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: space-between;
+        }
 
-.search-container select {
-    width: 28%;
-    padding: 10px;
-    font-size: 16px;
-}
+        .person-card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: calc(33.333% - 30px);
+            text-align: center;
+        }
 
-#showcaseContainer, #peopleContainer {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px; /* Adjust gap to ensure 3 items fit per row */
-    justify-content: space-between;
-}
+        .person-card img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
 
-.showcase {
-    background-color: white;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: calc(33.333% - 30px); /* Ensure 3 items fit in a row */
-    box-sizing: border-box;
-    position: relative;
-    text-align: center;
-}
+        .person-card h3 {
+            margin: 10px 0 5px;
+        }
 
-.showcase img {
-    width: 100%;
-    height: auto;
-    border-radius: 5px;
-}
+        .person-card p {
+            margin: 5px 0;
+        }
 
-.showcase .like-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 5px;
-}
+        @media screen and (max-width: 768px) {
+            .person-card {
+                width: calc(50% - 30px);
+            }
+        }
 
-.showcase .like-button:hover {
-    background-color: #0056b3;
-}
-
-.showcase h3 {
-    margin: 10px 0 5px;
-}
-
-.showcase .details {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.showcase .details span {
-    margin: 5px 0;
-}
-
+        @media screen and (max-width: 500px) {
+            .person-card {
+                width: 100%;
+            }
+        }
     </style>
-    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <button id="notificationsBtn" onclick="window.location.href='index.html'">Notifications</button>
-        <button id="showcasesBtn" onclick="window.location.href='index.html'">Showcases</button>
-        <button id="jobPostsBtn" onclick="window.location.href='index.html'">Job Posts</button>
-        <button id="peopleBtn">People</button>
-    </header>
-
     <div class="container">
         <div class="search-container">
             <input type="text" id="peopleSkillSearch" placeholder="Search by skill...">
-            <select id="peopleLocationRadius">
-                <option value="5">Within 5 km</option>
-                <option value="10">Within 10 km</option>
-                <option value="15">Within 15 km</option>
-            </select>
+            <button id="searchButton">Search</button>
         </div>
 
         <div id="peopleContainer">
-            <!-- Person 1 -->
-            <div class="showcase" data-skill="mehendi designing" data-location="8">
-                <img src="images/arti.jpg" alt="Arti Sharma">
-                <h3>Arti Sharma</h3>
-                <div class="details">
-                    <span>Skill: Mehendi Designing</span>
-                    <span>Email: arti.sharma@example.com</span>
-                </div>
-            </div>
-            <!-- Person 2 -->
-            <div class="showcase" data-skill="graphic design" data-location="12">
-                <img src="images/jane.jpg" alt="Jane Smith">
-                <h3>Jane Smith</h3>
-                <div class="details">
-                    <span>Skill: Graphic Design</span>
-                    <span>Email: jane.smith@example.com</span>
-                </div>
-            </div>
-            <!-- Person 3 -->
-            <div class="showcase" data-skill="photography" data-location="5">
-                <img src="images/ravi.jpg" alt="Ravi Kumar">
-                <h3>Ravi Kumar</h3>
-                <div class="details">
-                    <span>Skill: Photography</span>
-                    <span>Email: ravi.kumar@example.com</span>
-                </div>
-            </div>
+            <% if (people.length > 0) { %>
+                <% people.forEach(person => { %>
+                    <div class="person-card">
+                        <img src="<%= person.profile_photo_url || '/images/default_profile_photo.jpg' %>" alt="<%= person.username %>">
+                        <h3><%= person.username %></h3>
+                        <p>Skills: <%= person.skills %></p>
+                        <p>Email: <%= person.email %></p>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <p>No people found with that skill.</p>
+            <% } %>
         </div>
-    </div>
 
-    <script>// Filter functionality for the "People" page
-        document.getElementById('peopleSkillSearch').addEventListener('input', function() {
-            filterPeople();
-        });
-        
-        document.getElementById('peopleLocationRadius').addEventListener('change', function() {
-            filterPeople();
-        });
-        
-        function filterPeople() {
+    <script>
+        // Search functionality triggered on button click
+        document.getElementById('searchButton').addEventListener('click', async function () {
             const skill = document.getElementById('peopleSkillSearch').value.toLowerCase();
-            const radius = parseInt(document.getElementById('peopleLocationRadius').value);
-            const people = document.querySelectorAll('#peopleContainer .showcase');
-        
-            people.forEach(person => {
-                const personSkill = person.getAttribute('data-skill').toLowerCase();
-                const personLocation = parseInt(person.getAttribute('data-location'));
-        
-                if (personSkill.includes(skill) && personLocation <= radius) {
-                    person.style.display = 'block';
-                } else {
-                    person.style.display = 'none';
-                }
-            });
-        }
-        </script>
+
+            // Fetch filtered data from the backend based on the entered skill
+            const response = await fetch(`/people/search?skill=${skill}`);
+            const html = await response.text();
+
+            // Update the peopleContainer with the new filtered results
+            document.getElementById('peopleContainer').innerHTML = html;
+        });
+    </script>
 </body>
 </html>
