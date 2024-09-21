@@ -22,6 +22,7 @@ router.use(bodyParser.urlencoded({ extended: true }));
 
 // Render the 'index' page
 router.get('/', (req, res) => {
+        console.log(req.session);
         res.render('index', { user: req.user });
     
 });
