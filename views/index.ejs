@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -9,7 +9,7 @@
         /* Base Styles */
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #FEFAE0;
+            background-color: #FEF7DC; /* Lighter background */
             color: #333;
             margin: 0;
             padding: 0;
@@ -17,49 +17,52 @@
 
         /* Navigation Bar */
         header {
-            background-color: #A8B887; /* Darkened green */
+            background-color: #51454e; /* Dark for the navbar */
             padding: 15px 20px;
-            text-align: center;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             position: fixed;
             width: 100%;
             top: 0;
             left: 0;
             z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         header h1 {
             font-size: 2.5em;
             margin: 0;
-            color: #A67850; /* Darkened orange */
+            color: #FEF7DC; /* Light text for dark navbar */
         }
 
-        header p {
-            font-size: 1.2em;
-            margin-top: 10px;
-            color: #555;
+        header nav {
+            display: flex;
+            align-items: center;
+            margin-right: 3vw;        
         }
 
-        header a {
-            color: #C9D2A7; /* Darkened green */
+        header nav a {
+            color: #FEF7DC; /* Light text for contrast */
             text-decoration: none;
             font-weight: bold;
             margin: 0 15px;
             transition: color 0.3s ease;
         }
 
-        header a:hover {
-            color: #C0C49B; /* Darkened green for hover */
+        header nav a:hover {
+            color: #C2B8A3; /* Medium tone for hover */
         }
 
         /* Main Content */
         main {
             padding: 80px 20px 40px;
             text-align: center;
+            margin-top: 60px; /* Ensure content does not hide behind header */
         }
 
         .hero {
-            background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url('/images/hero-bg.jpg') no-repeat center center/cover;
+            background: linear-gradient(rgba(118, 116, 118, 0.8), rgba(255, 255, 255, 0.8)), url('/images/hero-bg.jpg') no-repeat center center/cover;
             padding: 80px 20px;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -69,7 +72,7 @@
         .hero h2 {
             font-size: 2.5em;
             margin: 0 0 20px;
-            color: #A67850; /* Darkened orange */
+            color: black;
         }
 
         .hero p {
@@ -79,8 +82,8 @@
         }
 
         .hero button {
-            background-color: #A67850; /* Darkened orange */
-            color: #FEFAE0;
+            background-color: rgba(154, 152, 154, 0.8); /* Medium tone for button */
+            color: #34322c;
             padding: 15px 30px;
             border: none;
             border-radius: 5px;
@@ -90,11 +93,12 @@
         }
 
         .hero button:hover {
-            background-color: #8A6140; /* Darkened orange hover */
+            background-color: #A19882; /* Darker tone for hover */
             transform: scale(1.05);
         }
 
         .features {
+            
             display: flex;
             justify-content: space-around;
             flex-wrap: wrap;
@@ -102,7 +106,7 @@
         }
 
         .feature {
-            background-color: #C9D2A7; /* Darkened green */
+            background-color: #E6DDC6; /* Secondary light background */
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -110,6 +114,7 @@
             text-align: center;
             margin: 10px;
             transition: transform 0.3s ease;
+            color: #34322c;
         }
 
         .feature:hover {
@@ -119,7 +124,7 @@
         .feature h3 {
             font-size: 1.5em;
             margin-bottom: 20px;
-            color: #A67850; /* Darkened orange */
+            color: #34322c;; /* Dark tone for headings */
         }
 
         .feature p {
@@ -129,7 +134,7 @@
 
         /* Testimonials Section */
         .testimonials {
-            background-color: #C7B69C; /* Slightly darker tone for balance */
+            background-color: #C2B8A3; /* Medium tone for testimonials */
             padding: 40px 20px;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -139,7 +144,7 @@
         .testimonials h2 {
             font-size: 2em;
             margin: 0 0 20px;
-            color: #A67850; /* Darkened orange */
+            color: #34322c;; /* Light for contrast */
         }
 
         .testimonial {
@@ -157,32 +162,32 @@
             display: block;
             margin-top: 10px;
             font-style: normal;
-            color: #888;
+            color: #504d44;
         }
 
         /* Footer Section */
         footer {
-            background-color: #A8B887; /* Darkened green */
+            background-color: #E6DDC6; /* Secondary light background */
             padding: 20px;
             text-align: center;
-            color: #C9D2A7; /* Darkened green */
+            color: #333; /* Dark for contrast */
             box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
         }
 
         footer h3 {
             margin: 0 0 10px;
             font-size: 1.5em;
-            color: #A67850; /* Darkened orange */
+            color: #A19882; /* Darker for headings */
         }
 
         footer p {
             font-size: 1em;
             margin: 0;
-            color: #C9D2A7; /* Darkened green */
+            color: #333;
         }
 
         footer a {
-            color: #C9D2A7; /* Darkened green */
+            color: #333; /* Dark for contrast */
             text-decoration: none;
             font-weight: bold;
             margin: 0 10px;
@@ -190,7 +195,7 @@
         }
 
         footer a:hover {
-            color: #C0C49B; /* Darkened green for hover */
+            color: #A19882; /* Dark for hover */
         }
 
         @media (max-width: 768px) {
@@ -203,16 +208,20 @@
 </head>
 <body>
     <header>
-        <h1>Welcome to SkillConnect</h1>
-        <div class="circle"><a href="/profile">Profile</a></div>
-        <% if (user) { %>
-            <p>Hello, <%= user.username %>! <a href="/logout">Logout</a></p>
-            <a href="/search_people">People</a>
-            <a href="/search">Showcases</a>
-            <a href="/post">Post</a>
-        <% } else { %>
-            <a href="/">Home</a> | <a href="/login">Login</a> | <a href="/register">Register</a> | <a href="/about">About Us</a>
-        <% } %>
+        <h1>Welcome to SkillConnect!</h1>
+        <nav>
+            <% if (user) { %>
+                <p>Hello, <%= user.username %>!</p>
+                <a href="/search_people">People</a>
+                <a href="/search">Showcases</a>
+                <a href="/post">Post</a>
+                <a href="/profile">Profile</a>
+                <a href="/logout">Logout</a>
+
+            <% } else { %>
+                <a href="/">Home</a> | <a href="/login">Login</a> | <a href="/register">Register</a> | <a href="/about">About Us</a>
+            <% } %>
+        </nav>
     </header>
 
     <main>
@@ -255,11 +264,3 @@
             </div>
         </section>
     </main>
-
-    <footer>
-        <h3>SkillConnect</h3>
-        <p>&copy; 2024 SkillConnect. All rights reserved.</p>
-        <a href="/about">About Us</a> | <a href="/contact">Contact</a> | <a href="/privacy">Privacy Policy</a>
-    </footer>
-</body>
-</html>
