@@ -3,64 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
     <title>Contact Us - SkillConnect</title>
     <style>
         /* Base Styles */
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #FEFAE0;
+            background-color: white; /* Lighter background */
             color: #333;
             margin: 0;
             padding: 0;
         }
 
-        /* Header */
+        /* Navigation Bar */
         header {
-            background-color: #A8B887; /* Darkened green */
+            background-color: #27374D; /* Dark for the navbar */
             padding: 15px 20px;
-            text-align: center;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             position: fixed;
             width: 100%;
             top: 0;
             left: 0;
             z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         header h1 {
             font-size: 2.5em;
             margin: 0;
-            color: #A67850; /* Darkened orange */
+            color: white; /* Light text for dark navbar */
         }
 
-        header p {
-            font-size: 1.2em;
-            margin-top: 10px;
-            color: #555;
+        header nav {
+            display: flex;
+            align-items: center;
+            margin-right: 3vw;        
         }
 
-        header a {
-            color: #C9D2A7; /* Darkened green */
+        header nav a {
+            color: white; /* Light text for contrast */
             text-decoration: none;
             font-weight: bold;
             margin: 0 15px;
             transition: color 0.3s ease;
+            padding: 5px 10px;
         }
 
-        header a:hover {
-            color: #C0C49B; /* Darkened green for hover */
+        /* Style for active page */
+        header nav a.active {
+            background-color: #9DB2BF; /* Medium tone for active link */
+            color: black; /* Dark text on active link */
+            border-radius: 5px;
+        }
+
+        header nav a:hover {
+            transform: scale(1.05);
         }
 
         /* Main Content */
         main {
             padding: 80px 20px 40px;
             text-align: center;
+            margin-top: 60px; /* Ensure content does not hide behind header */
         }
 
         main h2 {
             font-size: 2.5em;
             margin-bottom: 20px;
-            color: #A67850; /* Darkened orange */
+            color: #27374D; /* Dark tone for headings */
         }
 
         main p {
@@ -70,7 +82,7 @@
 
         /* Contact Form */
         .contact-form {
-            background-color: #C9D2A7; /* Darkened green */
+            background-color: #DDE6ED; /* Light background for form */
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -91,14 +103,14 @@
         .contact-form input, .contact-form textarea {
             width: 100%;
             padding: 10px;
-            border: 1px solid #A67850; /* Darkened orange */
+            border: 1px solid #27374D; /* Darker border */
             border-radius: 5px;
             margin-bottom: 15px;
         }
 
         .contact-form button {
-            background-color: #A67850; /* Darkened orange */
-            color: #C9D2A7; /* Darkened green */
+            background-color: #27374D; /* Dark button */
+            color: white; /* Light text */
             border: none;
             padding: 10px 20px;
             font-size: 1.2em;
@@ -108,32 +120,32 @@
         }
 
         .contact-form button:hover {
-            background-color: #C0C49B; /* Darkened green for hover */
+            background-color: #9DB2BF; /* Lighter on hover */
         }
 
         /* Footer */
         footer {
-            background-color: #A8B887; /* Darkened green */
+            background-color: #DDE6ED;
             padding: 20px;
             text-align: center;
-            color: #C9D2A7; /* Darkened green */
+            color: #333;
             box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
         }
 
         footer h3 {
             margin: 0 0 10px;
             font-size: 1.5em;
-            color: #A67850; /* Darkened orange */
+            color: #27374D;
         }
 
         footer p {
             font-size: 1em;
             margin: 0;
-            color: #C9D2A7; /* Darkened green */
+            color: #333;
         }
 
         footer a {
-            color: #C9D2A7; /* Darkened green */
+            color: #333;
             text-decoration: none;
             font-weight: bold;
             margin: 0 10px;
@@ -141,7 +153,7 @@
         }
 
         footer a:hover {
-            color: #C0C49B; /* Darkened green for hover */
+            color: #9DB2BF;
         }
 
         /* Responsive Design */
@@ -154,12 +166,20 @@
 </head>
 <body>
     <header>
-        <h1>Contact Us</h1>
-        <% if (user) { %>
-            <p>Hello, <%= user.name %>! <a href="/logout">Logout</a></p>
-        <% } else { %>
-            <a href="/">Home</a> | <a href="/login">Login</a> | <a href="/register">Register</a> | <a href="/about">About Us</a>
-        <% } %>
+        <h1>SkillConnect</h1>
+        <nav>
+            <% if (user) { %>
+                <a href="/" class="<%= (page === 'home') ? 'active' : '' %>">Home</a>
+                <a href="/contact" class="active">Contact Us</a>
+                <a href="/logout">Logout</a>
+            <% } else { %>
+                <a href="/" class="<%= (page === 'home') ? 'active' : '' %>">Home</a>
+                <a href="/contact" class="active">Contact Us</a>
+                <a href="/login">Login</a>
+                <a href="/register">Register</a>
+                <a href="/about">About Us</a>
+            <% } %>
+        </nav>
     </header>
 
     <main>
@@ -180,7 +200,7 @@
     <footer>
         <h3>SkillConnect</h3>
         <p>&copy; 2024 SkillConnect. All rights reserved.</p>
-        <a href="/about">About Us</a> |  <a href="/privacy">Privacy Policy</a>
+        <a href="/about">About Us</a> | <a href="/privacy">Privacy Policy</a>
     </footer>
 </body>
 </html>

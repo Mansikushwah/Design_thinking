@@ -3,160 +3,246 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Bar and Job Posting</title>
-    <style>body {
-        margin: 0;
-        background-color: #FEFAE0; /* Light background color from the palette */
-        font-family: Arial, sans-serif;
-    }
-    
-    .top-container {
-        width: 100%;
-        height: 15vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: #CCD5AE; /* Use color from the palette */
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    
-    .search-container {
-        width: 85%;
-        height: 40%;
-        position: relative;
-    }
-    
-    .search-bar {
-        width: 100%;
-        height: 100%;
-        padding: 0 40px 0 40px;
-        border: 1px solid #E9EDC9; /* Use color from the palette */
-        border-radius: 20px;
-        outline: none;
-        font-size: 16px;
-        box-sizing: border-box;
-    }
-    
-    .search-bar::placeholder {
-        color: #D4A373; /* Use color from the palette */
-    }
-    
-    .search-button {
-        position: absolute;
-        right: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-        background-color: #D4A373; /* Use color from the palette */
-        color: white;
-        border: none;
-        border-radius: 50%;
-        width: 30px;
-        height: 30px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        transition: transform 0.1s ease;
-    }
-    
-    .search-button:active {
-        transform: translateY(-50%) scale(0.9);
-    }
-    
-    .job-posting {
-        width: 60%;
-        margin: 20px auto;
-        padding: 20px;
-        background-color: #FAEDCD; /* Use color from the palette */
-        border-radius: 10px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        display: flex;
-        align-items: flex-start;
-    }
-    
-    .profile-photo img {
-        width: 150px;
-        height: 150px;
-        border-radius: 50%;
-        margin-right: 20px;
-    }
-    
-    .job-details h2 {
-        margin: 0 0 10px 0;
-    }
-    
-    .job-details p {
-        margin: 5px 0;
-    }
-    
-    .job-details strong {
-        font-weight: bold;
-    }
-    
-    .view-profile-button {
-        display: inline-block;
-        margin-top: 10px;
-        padding: 10px 20px;
-        background-color: #D4A373; /* Use color from the palette */
-        color: white;
-        text-decoration: none;
-        border-radius: 5px;
-        transition: background-color 0.3s ease;
-    }
-    
-    .view-profile-button:hover {
-        background-color: darken(#D4A373, 10%);
-    }
+    <title>Post Listings - SkillConnect</title>
+    <style>
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: white; /* Lighter background */
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Ensures the body takes up at least the full viewport height */
+        }
+
+        /* Wrapper for the content and footer */
+        .content-wrapper {
+            flex: 1; /* This will push the footer to the bottom */
+        }
+
+        /* Header */
+        header {
+            background-color: #27374D; /* Dark for the navbar */
+            padding: 15px 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin: 0;
+            color: white;
+        }
+
+        header nav {
+            display: flex;
+            align-items: center;
+            margin-right: 3vw;
+        }
+
+        header nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+
+        header nav a:hover {
+            color: #9DB2BF;
+        }
+
+        /* Main Content */
+        main {
+            padding: 80px 20px 40px;
+            margin-top: 60px;
+        }
+
+        .search-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .search-section input {
+            padding: 10px;
+            font-size: 1.2em;
+            width: 60%;
+            max-width: 500px;
+            border-radius: 5px;
+            border: 1px solid #CCC;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-section button {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            border: none;
+            background-color: #27374D;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-left: 10px;
+        }
+
+        .search-section button:hover {
+            background-color: #526D82;
+        }
+
+        .post-listings {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .post-card {
+            background-color: #DDE6ED;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+            width: 45%;
+            max-width: 400px;
+        }
+
+        .post-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .post-card h2 {
+            font-size: 1.5em;
+            color: #34322c;
+            margin: 15px 0;
+        }
+
+        .post-card p {
+            color: #666;
+            margin: 5px 0;
+        }
+
+        .post-card .view-profile-button {
+            background-color: #27374D;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 10px;
+            display: inline-block;
+        }
+
+        .post-card .view-profile-button:hover {
+            background-color: #526D82;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #DDE6ED;
+            padding: 20px;
+            text-align: center;
+            color: #333;
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 40px;
+        }
+
+        footer h3 {
+            margin: 0 0 10px;
+            font-size: 1.5em;
+            color: #27374D;
+        }
+
+        footer a {
+            color: #333;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #9DB2BF;
+        }
+
+        @media (max-width: 768px) {
+            .post-card {
+                width: 90%;
+            }
+        }
     </style>
-    <link rel="stylesheet" href="styles1.css">
 </head>
 <body>
-    <div class="top-container">
-        <div class="search-container">
-            <i></i>
-            <input type="text" class="search-bar" placeholder="Type job or keyword">
-            <button class="search-button">Go</button>
-        </div>
+    <!-- Main content wrapper to ensure the footer stays at the bottom -->
+    <div class="content-wrapper">
+        <header>
+            <h1>SkillConnect</h1>
+            <nav>
+                <% if (user) { %>
+                    <p>Hello, <%= user.username %>!</p>
+                    <a href="/profile">Profile</a>
+                    <a href="/search">Showcases</a>
+                    <a href="/logout">Logout</a>
+                <% } else { %>
+                    <a href="/">Home</a>
+                    <a href="/login">Login</a>
+                    <a href="/register">Register</a>
+                    <a href="/about">About Us</a>
+                <% } %>
+            </nav>
+        </header>
+
+        <main>
+            <!-- Search Section -->
+            <section class="search-section">
+                <input type="text" id="searchBar" placeholder="Type job or keyword" value="<%= searchTerm %>">
+                <button onclick="searchJobs()">Go</button>
+            </section>
+
+            <!-- Posts Listing -->
+            <section class="post-listings">
+                <% if (posts.length > 0) { %>
+                    <% posts.forEach(post => { %>
+                        <div class="post-card">
+                            <img src="<%= post.profile_photo_url || '/images/default_profile_photo.jpg' %>" alt="Profile Photo">
+                            <h2><%= post.title %></h2>
+                            <p><strong>Posted By:</strong> <%= post.poster %></p>
+                            <p><strong>Skills:</strong> <%= post.skills %></p>
+                            <p><strong>Description:</strong> <%= post.content %></p>
+                            <p><strong>Posted:</strong> <%= new Date(post.created_at).toLocaleDateString() %></p>
+                            <a href="/profile/<%= post.posterId %>" class="view-profile-button">View Profile</a>
+                        </div>
+                    <% }) %>
+                <% } else { %>
+                    <p>No posts found.</p>
+                <% } %>
+            </section>
+        </main>
     </div>
 
-    <!-- Job Postings -->
-    <div class="job-posting">
-        <div class="profile-photo">
-            <img src="/images/profile.jpg" alt="Profile Photo">
-        </div>
-        <div class="job-details">
-            <h2>Portrait Maker</h2>
-            <p><strong>Location:</strong> New York, NY</p>
-            <p><strong>Job Description:</strong> We are looking for a talented portrait maker to join our team. The ideal candidate will have a strong portfolio, excellent artistic skills, and a passion for creating lifelike portraits. Responsibilities include creating portraits based on client specifications, collaborating with other artists, and maintaining high-quality standards.</p>
-            <p><strong>Posted:</strong> 3 days ago</p>
-            <a href="#" class="view-profile-button">View Profile</a>
-        </div>
-    </div>
+    <footer>
+        <h3>SkillConnect</h3>
+        <p>&copy; 2024 SkillConnect. All rights reserved.</p>
+        <a href="/about">About Us</a> | <a href="/contact">Contact Us</a> | <a href="/privacy">Privacy Policy</a>
+    </footer>
 
-    <div class="job-posting">
-        <div class="profile-photo">
-            <img src="mehndi_artist.jpg" alt="Mehndi Artist">
-        </div>
-        <div class="job-details">
-            <h2>Mehndi Artist</h2>
-            <p><strong>Location:</strong> Indore, Madhya Pradesh</p>
-            <p><strong>Job Description:</strong> A Mehndi artist is needed for a marriage ceremony for 2 days in Indore. The artist should have experience in traditional and modern designs, be able to work under tight schedules, and cater to various client preferences.</p>
-            <p><strong>Posted:</strong> 1 day ago</p>
-            <a href="#" class="view-profile-button">View Profile</a>
-        </div>
-    </div>
-
-    <div class="job-posting">
-        <div class="profile-photo">
-            <img src="cook.jpg" alt="Cook">
-        </div>
-        <div class="job-details">
-            <h2>Cook for Birthday Party</h2>
-            <p><strong>Location:</strong> Indore, Madhya Pradesh</p>
-            <p><strong>Job Description:</strong> A cook is required for a birthday party on 9th March for one day in Indore. The cook should be experienced in preparing a variety of dishes, managing the kitchen efficiently, and catering to guest preferences.</p>
-            <p><strong>Posted:</strong> 2 days ago</p>
-            <a href="#" class="view-profile-button">View Profile</a>
-        </div>
-    </div>
+    <script>
+        function searchJobs() {
+            const searchTerm = document.getElementById('searchBar').value;
+            window.location.href = '/post?q=' + encodeURIComponent(searchTerm);
+        }
+    </script>
 </body>
 </html>

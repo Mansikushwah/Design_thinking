@@ -7,9 +7,11 @@ router.get('/contact', (req, res) => {
     res.render('contact', { 
         user: req.user,  // Pass the user to the template
         success_flash: req.flash('success'), 
-        error_flash: req.flash('error') 
+        error_flash: req.flash('error'),
+        page: 'contact' // Add the page variable
     });
 });
+
 
 // POST route to handle form submission
 router.post('/contact', (req, res) => {

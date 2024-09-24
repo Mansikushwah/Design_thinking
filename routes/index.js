@@ -22,14 +22,70 @@ router.use(bodyParser.urlencoded({ extended: true }));
 
 // Render the 'index' page
 router.get('/', (req, res) => {
-        res.render('index', { user: req.user });
+        res.render('index', { user: req.user, page: 'home' });
     
 });
 
 // Render the 'search_people' page
 router.get('/search_people', (req, res) => {
-    res.render('search_people',{ user: req.user });
+    const sql = `
+        SELECT u.username, u.email, u.profile_photo AS profile_photo, 
+               GROUP_CONCAT(s.skill_name SEPARATOR ', ') AS skills
+        FROM users u
+        JOIN user_skills us ON u.user_id = us.user_id
+        JOIN skills s ON us.skill_id = s.skill_id
+        GROUP BY u.user_id, u.username, u.email, u.profile_photo`;
+
+    db.query(sql, [], (err, results) => {
+        if (err) {
+            console.error('Error fetching people:', err);
+            return res.status(500).send('Server error');
+        }
+
+        // Render the EJS template with the initial people data
+        res.render('search_people', { user: req.user, people: results });
+    });
 });
+
+// AJAX route for fetching filtered people based on skill
+router.get('/people/search', (req, res) => {
+    const searchQuery = req.query.skill || ''; // Get the search query from the request
+
+    const sql = `
+        SELECT u.username, u.email, u.profile_photo AS profile_photo, 
+               GROUP_CONCAT(s.skill_name SEPARATOR ', ') AS skills
+        FROM users u
+        JOIN user_skills us ON u.user_id = us.user_id
+        JOIN skills s ON us.skill_id = s.skill_id
+        WHERE s.skill_name LIKE ?
+        GROUP BY u.user_id, u.username, u.email, u.profile_photo`;
+
+    db.query(sql, [`%${searchQuery}%`], (err, results) => {
+        if (err) {
+            console.error('Error fetching people:', err);
+            return res.status(500).send('Server error');
+        }
+
+        // Build the HTML to send back to the client
+        let html = '';
+        if (results.length > 0) {
+            results.forEach(person => {
+                html += `
+                    <div class="person-card">
+                        <img src="${person.profile_photo_url || '/images/default_profile_photo.jpg'}" alt="${person.username}">
+                        <h3>${person.username}</h3>
+                        <p>Skills: ${person.skills}</p>
+                        <p>Email: ${person.email}</p>
+                    </div>`;
+            });
+        } else {
+            html = '<p>No people found with that skill.</p>';
+        }
+
+        res.send(html); // Send the generated HTML back to the client
+    });
+});
+
 
 // Render the 'add_showcase' page
 router.get('/add_showcase', (req, res) => {
@@ -165,7 +221,35 @@ router.post('/delete_profile_photo', (req, res) => {
 
 // Render the 'post' page
 router.get('/post', (req, res) => {
-    res.render('post');
+    const searchTerm = req.query.q || ''; // Get the search term from query
+
+    // SQL query to fetch posts with optional search filter
+    const query = `
+        SELECT 
+            posts.title, 
+            posts.content, 
+            posts.created_at, 
+            users.username AS poster, 
+            users.profile_photo, 
+            GROUP_CONCAT(skills.skill_name) AS skills
+        FROM posts
+        JOIN users ON posts.user_id = users.user_id
+        LEFT JOIN post_skills ON posts.post_id = post_skills.post_id
+        LEFT JOIN skills ON post_skills.skill_id = skills.skill_id
+        WHERE posts.title LIKE ? OR skills.skill_name LIKE ?
+        GROUP BY posts.post_id
+        ORDER BY posts.created_at DESC;
+    `;
+
+    db.query(query, [`%${searchTerm}%`, `%${searchTerm}%`], (err, results) => {
+        if (err) {
+            console.error('Error fetching posts:', err);
+            return res.status(500).send('Server error');
+        }
+
+        // Render the 'post' view with posts and searchTerm
+        res.render('post', { posts: results, searchTerm: searchTerm, user: req.user });
+    });
 });
 
 // Render the 'profile' page
@@ -188,7 +272,7 @@ router.get('/profile', (req, res) => {
                     const posts = postResults;
             
                     // Render profile page with user, skills, and showcases data
-                    res.render('profile', { user, skills, showcases, posts });
+                    res.render('profile', { user, skills, showcases, posts, page: 'profile'});
                 });
             });
         });
@@ -315,7 +399,33 @@ router.post('/delete_post', (req, res) => {
 
 // Render the 'search' page
 router.get('/search', (req, res) => {
-    res.render('search',{ user: req.user });
+    const query = `
+        SELECT 
+            showcases.image_url, 
+            users.username AS skill_seeker, 
+            showcases.title, 
+            showcases.description, 
+            showcases.created_at, 
+            skills.skill_name
+        FROM showcases
+        JOIN users ON showcases.user_id = users.user_id
+        JOIN showcase_skills ON showcases.showcase_id = showcase_skills.showcase_id
+        JOIN skills ON showcase_skills.skill_id = skills.skill_id
+        ORDER BY showcases.created_at DESC;
+    `;
+
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error('Error fetching showcases:', err);
+            return res.status(500).send('Server error');
+        }
+
+        res.render('search', { showcases: results, user: req.user });
+    });
 });
 
+// Route to render the privacy policy page
+router.get('/privacy', (req, res) => {
+    res.render('privacy_policy', { user: req.user }); // Pass the user object if needed
+});
 module.exports = router;

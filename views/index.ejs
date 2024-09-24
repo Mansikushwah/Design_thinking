@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -9,61 +9,68 @@
         /* Base Styles */
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #F1F6F9;
-            color: #212A3E;
+            background-color: white; /* Lighter background */
+            color: #333;
             margin: 0;
             padding: 0;
         }
 
         /* Navigation Bar */
         header {
-            background-color: #394867;
+            background-color: #27374D; /* Dark for the navbar */
             padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             position: fixed;
             width: 100%;
             top: 0;
             left: 0;
             z-index: 1000;
-            padding-left: 10px;
-        }
-
-        header h1 {
-            font-size: 2em;
-            margin: 0;
-            color: #9BA4B5;
-        }
-
-        /* Navbar Links */
-        nav {
             display: flex;
+            justify-content: space-between;
             align-items: center;
         }
 
-        nav a {
-            color: #F1F6F9;
+        header h1 {
+            font-size: 2.5em;
+            margin: 0;
+            color: white; /* Light text for dark navbar */
+        }
+
+        header nav {
+            display: flex;
+            align-items: center;
+            margin-right: 3vw;        
+        }
+
+        header nav a {
+            color: white; /* Light text for contrast */
             text-decoration: none;
             font-weight: bold;
             margin: 0 15px;
-            padding: 10px 0;
             transition: color 0.3s ease;
+            padding: 5px 10px;
         }
 
-        nav a:hover {
-            color: #9BA4B5;
+        /* Style for active page */
+        header nav a.active {
+            background-color: #9DB2BF; /* Medium tone for active link */
+            color: black; /* Dark text on active link */
+            border-radius: 5px;
+        }
+
+        header nav a:hover {
+            transform: scale(1.05);
         }
 
         /* Main Content */
         main {
-            padding: 100px 20px 40px;
+            padding: 80px 20px 40px;
             text-align: center;
+            margin-top: 60px; /* Ensure content does not hide behind header */
         }
 
         .hero {
-            background: linear-gradient(rgba(241, 246, 249, 0.8), rgba(241, 246, 249, 0.8)), url('/images/hero-bg.jpg') no-repeat center center/cover;
+            background: linear-gradient(#526D82, rgba(255, 255, 255, 0.8)), url('/images/hero-bg.jpg') no-repeat center center/cover;
             padding: 80px 20px;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -73,7 +80,7 @@
         .hero h2 {
             font-size: 2.5em;
             margin: 0 0 20px;
-            color: #212A3E;
+            color: black;
         }
 
         .hero p {
@@ -83,8 +90,9 @@
         }
 
         .hero button {
-            background-color: #394867;
-            color: #F1F6F9;
+            background-color: #DDE6ED; /* Medium tone for button */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            color: #34322c;
             padding: 15px 30px;
             border: none;
             border-radius: 5px;
@@ -94,7 +102,6 @@
         }
 
         .hero button:hover {
-            background-color: #212A3E;
             transform: scale(1.05);
         }
 
@@ -106,7 +113,7 @@
         }
 
         .feature {
-            background-color: #9BA4B5;
+            background-color: #DDE6ED; /* Secondary light background */
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -114,6 +121,7 @@
             text-align: center;
             margin: 10px;
             transition: transform 0.3s ease;
+            color: #34322c;
         }
 
         .feature:hover {
@@ -123,7 +131,7 @@
         .feature h3 {
             font-size: 1.5em;
             margin-bottom: 20px;
-            color: #212A3E;
+            color: #34322c; /* Dark tone for headings */
         }
 
         .feature p {
@@ -133,18 +141,17 @@
 
         /* Testimonials Section */
         .testimonials {
-            background-color: #394867;
+            background-color: white; /* Medium tone for testimonials */
             padding: 40px 20px;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             margin-top: 40px;
-            color: #F1F6F9;
         }
 
         .testimonials h2 {
             font-size: 2em;
             margin: 0 0 20px;
-            color: #F1F6F9;
+            color: #34322c; /* Light for contrast */
         }
 
         .testimonial {
@@ -154,39 +161,40 @@
 
         .testimonial p {
             font-size: 1.1em;
+            color: #666;
             margin: 0;
-            color: #F1F6F9;
         }
 
         .testimonial cite {
             display: block;
             margin-top: 10px;
             font-style: normal;
-            color: #9BA4B5;
+            color: #504d44;
         }
 
-        /* Footer Section */
+        /* Footer */
         footer {
-            background-color: #394867;
+            background-color: #DDE6ED;
             padding: 20px;
             text-align: center;
-            color: #F1F6F9;
+            color: #333;
             box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
         }
 
         footer h3 {
             margin: 0 0 10px;
             font-size: 1.5em;
-            color: #F1F6F9;
+            color: #27374D;
         }
 
         footer p {
             font-size: 1em;
             margin: 0;
+            color: #333;
         }
 
         footer a {
-            color: #F1F6F9;
+            color: #333;
             text-decoration: none;
             font-weight: bold;
             margin: 0 10px;
@@ -194,7 +202,7 @@
         }
 
         footer a:hover {
-            color: #9BA4B5;
+            color: #9DB2BF;
         }
 
         @media (max-width: 768px) {
@@ -207,13 +215,22 @@
 </head>
 <body>
     <header>
-        <h1>SkillConnect</h1>
+        <h1>Welcome to SkillConnect!</h1>
         <nav>
-            <a href="/">Home</a>
-            <a href="/login">Login</a>
-            <a href="/register">Register</a>
-            <a href="/about">About Us</a>
-            <a href="/profile">Profile</a>
+            <% if (user) { %>
+                <p>Hello, <%= user.username %>!</p>
+                <a href="/" class="<%= (page === 'home') ? 'active' : '' %>">Home</a>
+                <a href="/search_people" class="<%= (page === 'people') ? 'active' : '' %>">People</a>
+                <a href="/search" class="<%= (page === 'search') ? 'active' : '' %>">Showcases</a>
+                <a href="/post" class="<%= (page === 'post') ? 'active' : '' %>">Posts</a>
+                <a href="/profile" class="<%= (page === 'profile') ? 'active' : '' %>">Profile</a>
+                <a href="/logout">Logout</a>
+            <% } else { %>
+                <a href="/" class="<%= (page === 'home') ? 'active' : '' %>">Home</a>
+                <a href="/login" class="<%= (page === 'login') ? 'active' : '' %>">Login</a> | 
+                <a href="/register" class="<%= (page === 'register') ? 'active' : '' %>">Register</a> | 
+                <a href="/about" class="<%= (page === 'about') ? 'active' : '' %>">About Us</a>
+            <% } %>
         </nav>
     </header>
 
@@ -256,12 +273,11 @@
                 <cite>- Taylor M., Platform User</cite>
             </div>
         </section>
+        <footer>
+            <h3>SkillConnect</h3>
+            <p>&copy; 2024 SkillConnect. All rights reserved.</p>
+            <a href="/contact">Contact Us</a> | <a href="/privacy">Privacy Policy</a>
+        </footer>
     </main>
-
-    <footer>
-        <h3>SkillConnect</h3>
-        <p>&copy; 2024 SkillConnect. All rights reserved.</p>
-        <a href="/about">About Us</a> | <a href="/contact">Contact</a> | <a href="/privacy">Privacy Policy</a>
-    </footer>
 </body>
 </html>

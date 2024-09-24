@@ -5,85 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <style>
-        /* Base Styles */
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #F1F6F9;
-            color: #212A3E;
+            background-color: #F4F4F4;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
+            flex-direction: column; /* Added for vertical alignment of heading and form */
         }
 
         h2 {
-            color: #394867;
-            text-align: center;
+            font-size: 2.5em;
             margin-bottom: 20px;
+            color: #27374D;
+            text-align: center;
         }
 
         form {
-            background-color: #F1F6F9;
-            padding: 20px;
+            background-color: #FFF;
+            padding: 40px;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
             width: 100%;
             max-width: 400px;
         }
 
-        div {
-            margin-bottom: 15px;
-        }
-
         label {
             display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
+            text-align: left; /* Align labels to the left */
+            margin-bottom: 8px;
+            font-size: 1.2em;
+            color: #333;
         }
 
-        input[type="text"],
-        input[type="email"],
-        input[type="password"] {
+        input {
             width: 100%;
             padding: 10px;
-            border: 1px solid #9BA4B5;
+            margin-bottom: 20px;
+            border: 1px solid #CCC;
             border-radius: 5px;
-            background-color: #F1F6F9;
-            color: #212A3E;
-            font-size: 1em;
         }
 
         button {
-            background-color: #394867;
-            color: #F1F6F9;
-            padding: 10px 20px;
+            width: 100%;
+            background-color: #27374D;
+            color: white;
+            padding: 10px;
             border: none;
             border-radius: 5px;
-            font-size: 1em;
+            font-size: 1.2em;
             cursor: pointer;
-            width: 100%;
-            margin-top: 10px;
             transition: background-color 0.3s ease;
         }
 
         button:hover {
-            background-color: #212A3E;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #394867;
+            background-color: #9DB2BF;
         }
     </style>
 </head>
 <body>
+    <h2>LOGIN</h1>
     <form action="/login" method="POST">
-        <h2>Login</h2>
-        <div>
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
-        </div>
         <div>
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>

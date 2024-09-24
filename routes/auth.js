@@ -8,11 +8,11 @@ const router = express.Router();
 router.use(bodyParser.urlencoded({ extended: true }));
 
 // Login Page
-router.get('/login', (req, res) => res.render('login'));
+router.get('/login', (req, res) => res.render('login', { page: 'login' }));
 
 // Register Page
 router.get('/register', (req, res) => {
-    res.render('register'); // Render the register page
+    res.render('register', { page: 'login' }); // Render the register page
 });
 
 router.post('/register', (req, res) => {

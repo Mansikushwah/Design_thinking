@@ -3,190 +3,253 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SkillConnect - People</title>
+    <title>SkillConnect - People Search</title>
     <style>
+        /* Base Styles */
         body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-}
+            font-family: 'Arial', sans-serif;
+            background-color: white;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
 
-header {
-    background-color: #333;
-    color: white;
-    padding: 10px 20px;
-    text-align: right;
-}
+        /* Header */
+        header {
+            background-color: #27374D; /* Dark for the navbar */
+            padding: 15px 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-header button {
-    background-color: #444;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    margin: 0 5px;
-    cursor: pointer;
-}
+        header h1 {
+            font-size: 2.5em;
+            margin: 0;
+            color: white;
+        }
 
-header button:hover {
-    background-color: #555;
-}
+        header nav {
+            display: flex;
+            align-items: center;
+            margin-right: 3vw;
+        }
 
-.container {
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 0 20px;
-}
+        header nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
 
-.search-container {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
+        header nav a:hover {
+            color: #9DB2BF;
+        }
 
-.search-container input[type="text"] {
-    width: 70%;
-    padding: 10px;
-    font-size: 16px;
-}
+        /* Main Content */
+        main {
+            padding: 80px 20px 40px;
+            text-align: center;
+            margin-top: 60px;
+        }
 
-.search-container select {
-    width: 28%;
-    padding: 10px;
-    font-size: 16px;
-}
+        .hero {
+            background: linear-gradient(#526D82, rgba(255, 255, 255, 0.8)), url('/images/hero-bg.jpg') no-repeat center center/cover;
+            padding: 80px 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
 
-#showcaseContainer, #peopleContainer {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px; /* Adjust gap to ensure 3 items fit per row */
-    justify-content: space-between;
-}
+        .hero h2 {
+            font-size: 2.5em;
+            margin: 0 0 20px;
+            color: black;
+        }
 
-.showcase {
-    background-color: white;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: calc(33.333% - 30px); /* Ensure 3 items fit in a row */
-    box-sizing: border-box;
-    position: relative;
-    text-align: center;
-}
+        .hero p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            color: #666;
+        }
 
-.showcase img {
-    width: 100%;
-    height: auto;
-    border-radius: 5px;
-}
+        /* Search Section */
+        .search-container {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
+        }
 
-.showcase .like-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 5px;
-}
+        .search-container input[type="text"] {
+            width: 60%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #CCC;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
 
-.showcase .like-button:hover {
-    background-color: #0056b3;
-}
+        .search-container button {
+            padding: 12px 25px;
+            font-size: 16px;
+            margin-left: 10px;
+            border: none;
+            background-color: #27374D;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
 
-.showcase h3 {
-    margin: 10px 0 5px;
-}
+        .search-container button:hover {
+            background-color: #526D82;
+        }
 
-.showcase .details {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+        /* People Cards Section */
+        #peopleContainer {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
 
-.showcase .details span {
-    margin: 5px 0;
-}
+        .person-card {
+            background-color: #DDE6ED;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+            text-align: center;
+            width: 28%;
+        }
 
+        .person-card img {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        .person-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #34322c;
+        }
+
+        .person-card p {
+            font-size: 1em;
+            color: #666;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #DDE6ED;
+            padding: 20px;
+            text-align: center;
+            color: #333;
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        footer h3 {
+            margin: 0 0 10px;
+            font-size: 1.5em;
+            color: #27374D;
+        }
+
+        footer p {
+            font-size: 1em;
+            margin: 0;
+            color: #333;
+        }
+
+        footer a {
+            color: #333;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #9DB2BF;
+        }
+
+        @media (max-width: 768px) {
+            .person-card {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+        }
     </style>
-    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <button id="notificationsBtn" onclick="window.location.href='index.html'">Notifications</button>
-        <button id="showcasesBtn" onclick="window.location.href='index.html'">Showcases</button>
-        <button id="jobPostsBtn" onclick="window.location.href='index.html'">Job Posts</button>
-        <button id="peopleBtn">People</button>
+        <h1>SkillConnect</h1>
+        <nav>
+            <% if (user) { %>
+                <p>Hello, <%= user.username %>!</p>
+                <a href="/search">Showcases</a>
+                <a href="/post">Posts</a>
+                <a href="/logout">Logout</a>
+            <% } else { %>
+                <a href="/">Home</a> | <a href="/login">Login</a> | <a href="/register">Register</a> | <a href="/about">About Us</a>
+            <% } %>
+        </nav>
     </header>
 
-    <div class="container">
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <h2>Search for Talented Professionals</h2>
+            <p>At SkillConnect, we connect you with skilled professionals across different fields.</p>
+        </section>
+
+        <!-- Search Bar -->
         <div class="search-container">
             <input type="text" id="peopleSkillSearch" placeholder="Search by skill...">
-            <select id="peopleLocationRadius">
-                <option value="5">Within 5 km</option>
-                <option value="10">Within 10 km</option>
-                <option value="15">Within 15 km</option>
-            </select>
+            <button id="searchButton">Search</button>
         </div>
 
+        <!-- People Cards -->
         <div id="peopleContainer">
-            <!-- Person 1 -->
-            <div class="showcase" data-skill="mehendi designing" data-location="8">
-                <img src="images/arti.jpg" alt="Arti Sharma">
-                <h3>Arti Sharma</h3>
-                <div class="details">
-                    <span>Skill: Mehendi Designing</span>
-                    <span>Email: arti.sharma@example.com</span>
-                </div>
-            </div>
-            <!-- Person 2 -->
-            <div class="showcase" data-skill="graphic design" data-location="12">
-                <img src="images/jane.jpg" alt="Jane Smith">
-                <h3>Jane Smith</h3>
-                <div class="details">
-                    <span>Skill: Graphic Design</span>
-                    <span>Email: jane.smith@example.com</span>
-                </div>
-            </div>
-            <!-- Person 3 -->
-            <div class="showcase" data-skill="photography" data-location="5">
-                <img src="images/ravi.jpg" alt="Ravi Kumar">
-                <h3>Ravi Kumar</h3>
-                <div class="details">
-                    <span>Skill: Photography</span>
-                    <span>Email: ravi.kumar@example.com</span>
-                </div>
-            </div>
+            <% if (people.length > 0) { %>
+                <% people.forEach(person => { %>
+                    <div class="person-card">
+                        <img src="<%= person.profile_photo_url || '/images/default_profile_photo.jpg' %>" alt="<%= person.username %>">
+                        <h3><%= person.username %></h3>
+                        <p>Skills: <%= person.skills %></p>
+                        <p>Email: <%= person.email %></p>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <p>No people found with that skill.</p>
+            <% } %>
         </div>
-    </div>
+    </main>
 
-    <script>// Filter functionality for the "People" page
-        document.getElementById('peopleSkillSearch').addEventListener('input', function() {
-            filterPeople();
-        });
-        
-        document.getElementById('peopleLocationRadius').addEventListener('change', function() {
-            filterPeople();
-        });
-        
-        function filterPeople() {
+    <!-- Footer Section -->
+    <footer>
+        <h3>SkillConnect</h3>
+        <p>&copy; 2024 SkillConnect. All rights reserved.</p>
+        <a href="/contact">Contact Us</a> | <a href="/privacy">Privacy Policy</a>
+    </footer>
+
+    <script>
+        document.getElementById('searchButton').addEventListener('click', async function () {
             const skill = document.getElementById('peopleSkillSearch').value.toLowerCase();
-            const radius = parseInt(document.getElementById('peopleLocationRadius').value);
-            const people = document.querySelectorAll('#peopleContainer .showcase');
-        
-            people.forEach(person => {
-                const personSkill = person.getAttribute('data-skill').toLowerCase();
-                const personLocation = parseInt(person.getAttribute('data-location'));
-        
-                if (personSkill.includes(skill) && personLocation <= radius) {
-                    person.style.display = 'block';
-                } else {
-                    person.style.display = 'none';
-                }
-            });
-        }
-        </script>
+            const response = await fetch(`/people/search?skill=${skill}`);
+            const html = await response.text();
+            document.getElementById('peopleContainer').innerHTML = html;
+        });
+    </script>
 </body>
 </html>
