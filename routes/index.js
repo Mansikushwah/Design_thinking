@@ -523,14 +523,17 @@ router.get('/anotherProfile/:post_id', (req, res) => {
                 rating: results[0].rating,
                 created_at: results[0].created_at,
                 skills: [],
-                showcases: {}
+                showcases: {},
+                posts: []  // Initialize posts array
             };
 
             results.forEach(row => {
+                // Collect user's primary skills
                 if (row.user_skill_name && !userProfile.skills.find(skill => skill.skill_name === row.user_skill_name)) {
                     userProfile.skills.push({ skill_name: row.user_skill_name });
                 }
 
+                // Collect showcase information
                 if (row.showcase_id) {
                     if (!userProfile.showcases[row.showcase_id]) {
                         userProfile.showcases[row.showcase_id] = {
@@ -547,14 +550,33 @@ router.get('/anotherProfile/:post_id', (req, res) => {
                         userProfile.showcases[row.showcase_id].skills.push({ skill_name: row.showcase_skill_name });
                     }
                 }
+
+                // Collect posts information
+                if (row.post_id) {
+                    if (!userProfile.posts.find(post => post.post_id === row.post_id)) {
+                        userProfile.posts.push({
+                            post_id: row.post_id,
+                            title: row.post_title,
+                            content: row.post_content,
+                            created_at: row.post_created_at,
+                            skills: []
+                        });
+                    }
+
+                    const post = userProfile.posts.find(post => post.post_id === row.post_id);
+                    if (row.post_skill_name && !post.skills.find(skill => skill.skill_name === row.post_skill_name)) {
+                        post.skills.push({ skill_name: row.post_skill_name });
+                    }
+                }
             });
 
             userProfile.showcases = Object.values(userProfile.showcases);
 
-            res.render('anotherProfile', { profile: userProfile });
+            res.render('anotherProfile', { profile: userProfile, posts: userProfile.posts });
         });
     });
 });
+
 
 
 

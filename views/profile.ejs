@@ -43,7 +43,7 @@
             color: white;
         }
 
-        header a {
+        header .options a {
             color: white;
             /* Light text for contrast */
             text-decoration: none;
@@ -53,9 +53,13 @@
             margin-right: 2.5vw;
         }
 
-        header a:hover {
+        header .options a:hover {
             color: #9DB2BF;
             /* Medium tone for hover */
+        }
+
+        header .options {
+            margin-right: 2vw;
         }
 
 
@@ -492,8 +496,10 @@
         <div class="logo">
             <h1>SkillConnect</h1>
         </div>
-        <a href="/">Home</a>
-        <a href="/logout">Logout</a>
+        <div class="options">
+            <a href="/">Home</a>
+            <a href="/logout">Logout</a>
+        </div>
     </header>
     <main>
         <!-- <div class="background">
@@ -664,7 +670,8 @@
                                 <div class="postDate">
                                     <%= post.date_posted %>
                                 </div>
-                                <button class="removeSkill" id="removePost" data-post-id="<%= post.post_id %>">✖</button>
+                                <button class="removeSkill" id="removePost"
+                                    data-post-id="<%= post.post_id %>">✖</button>
                             </div>
                             <% }) %>
                                 <% } else { %>
