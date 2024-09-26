@@ -9,5 +9,5 @@ router.get('/about', (req, res) => {
         { name: 'Mansi', role: 'Founder', image: '/images/photo.jpeg' },
         { name: 'Kritika', role: 'co-Founder', image: '/images/photo.jpeg' }
     ];
-    res.render('about', { teamMembers, user: req.user, page: 'about'});
+    res.render('about', { teamMembers, user: req.user});
 });

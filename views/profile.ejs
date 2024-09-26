@@ -44,7 +44,8 @@
         }
 
         header a {
-            color: white; /* Light text for contrast */
+            color: white;
+            /* Light text for contrast */
             text-decoration: none;
             font-weight: bold;
             margin: 0 15px;
@@ -53,7 +54,8 @@
         }
 
         header a:hover {
-            color: #9DB2BF; /* Medium tone for hover */
+            color: #9DB2BF;
+            /* Medium tone for hover */
         }
 
 
@@ -152,7 +154,7 @@
             display: flex;
             align-items: center;
             /* Vertically centers the content */
-            justify-content: space-between;
+            justify-content: center;
             height: auto;
             /* Remove fixed height */
         }
@@ -210,37 +212,44 @@
 
         .posts {
             margin-top: 20px;
+            color: #212A3E;
         }
 
         .addPost {
-            border: 2px solid #394867;
-            /* Dark blue border */
-            background-color: #394867;
-            color: white;
+            border: 1px solid #9BA4B5;
+            background-color: #fff;
+            color: #212A3E;
             padding: 10px 20px;
             border-radius: 5px;
             cursor: pointer;
             margin-bottom: 10px;
             margin-top: 5px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .postGrid {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-evenly;
-            margin-bottom: 10px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
         }
 
         .postItem {
-            background-color: #212A3E;
-            /* Dark blue-gray for posts */
-            color: white;
+            background-color: white;
+            /* Changed to white */
+            border: 1px solid #9BA4B5;
+            /* Added border */
+            color: #212A3E;
             padding: 10px;
             width: 200px;
-            height: 300px;
+            height: 150px;
             border-radius: 5px;
-            text-decoration: none;
-            cursor: pointer;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
         }
 
         .showMorePosts {
@@ -248,18 +257,39 @@
             align-self: center;
             margin-left: 490px;
             background-color: #394867;
-            /* Dark blue for Show More button */
             color: white;
             padding: 10px;
             border-radius: 5px;
-            text-decoration: none;
             cursor: pointer;
         }
 
         .addPost {
             display: inline-block;
-            margin-left: .15vw;
+            margin-left: 0.15vw;
         }
+
+        .addPost,
+        #addShowcaseBtn {
+            display: block;
+            margin: 20px auto;
+            width: 150px;
+            background-color: #394867;
+            color: white;
+        }
+
+        .postItem h4 {
+            margin: 0;
+            padding-bottom: 5px;
+        }
+
+        .postDate {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 0.8em;
+            color: #9BA4B5;
+        }
+
 
         .profilePhoto {
             position: relative;
@@ -631,7 +661,10 @@
                                 <div>
                                     <%= post.content %>
                                 </div>
-                                <button class="removePost" data-post-id="<%= post.post_id %>">✖</button>
+                                <div class="postDate">
+                                    <%= post.date_posted %>
+                                </div>
+                                <button class="removeSkill" id="removePost" data-post-id="<%= post.post_id %>">✖</button>
                             </div>
                             <% }) %>
                                 <% } else { %>
@@ -639,8 +672,10 @@
                                     <% } %>
                 </div>
                 <button class="addPost">Add Post</button>
-                <!-- <a href="#" class="showMorePosts">Show More Posts</a> -->
             </div>
+
+
+
 
             <div id="addPostModal" class="modal">
                 <div class="modal-content">

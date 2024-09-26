@@ -23,7 +23,7 @@ app.use(session({
     saveUninitialized: false
 }));
 app.use(flash());
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     res.locals.success_flash = req.flash('success');
     res.locals.error_flash = req.flash('error');
     next();
@@ -37,8 +37,8 @@ require('./config/passport')(passport);
 app.use(express.static('public'));
 
 // Routes
-app.use( require('./routes/index'));
-app.use( require('./routes/auth'));
+app.use(require('./routes/index'));
+app.use(require('./routes/auth'));
 app.use('/', require('./routes/about'));
 const contactRoute = require('./routes/contact');
 app.use(contactRoute);
@@ -47,6 +47,12 @@ app.use((req, res, next) => {
     console.log(`Request URL: ${req.url}`);
     next();
 });
+
+// Import your routes
+const profileRoutes = require('./routes/index');
+
+// Use the routes
+app.use('/', profileRoutes);
 
 // Start the Server
 const PORT = process.env.PORT || 3000;

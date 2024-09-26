@@ -226,19 +226,33 @@ router.get('/post', (req, res) => {
     // SQL query to fetch posts with optional search filter
     const query = `
         SELECT 
-            posts.title, 
-            posts.content, 
-            posts.created_at, 
-            users.username AS poster, 
-            users.profile_photo, 
-            GROUP_CONCAT(skills.skill_name) AS skills
-        FROM posts
-        JOIN users ON posts.user_id = users.user_id
-        LEFT JOIN post_skills ON posts.post_id = post_skills.post_id
-        LEFT JOIN skills ON post_skills.skill_id = skills.skill_id
-        WHERE posts.title LIKE ? OR skills.skill_name LIKE ?
-        GROUP BY posts.post_id
-        ORDER BY posts.created_at DESC;
+    posts.post_id,
+    posts.title, 
+    posts.content, 
+    posts.created_at, 
+    users.username AS poster, 
+    users.profile_photo, 
+    GROUP_CONCAT(DISTINCT skills.skill_name) AS skills
+FROM 
+    posts
+JOIN 
+    users ON posts.user_id = users.user_id
+LEFT JOIN 
+    post_skills ON posts.post_id = post_skills.post_id
+LEFT JOIN 
+    skills ON post_skills.skill_id = skills.skill_id
+WHERE 
+    posts.title LIKE ? OR skills.skill_name LIKE ?
+GROUP BY 
+    posts.post_id, 
+    posts.title, 
+    posts.content, 
+    posts.created_at, 
+    users.username, 
+    users.profile_photo
+ORDER BY 
+    posts.created_at DESC;
+
     `;
 
     db.query(query, [`%${searchTerm}%`, `%${searchTerm}%`], (err, results) => {
@@ -423,6 +437,126 @@ router.get('/search', (req, res) => {
         res.render('search', { showcases: results, user: req.user });
     });
 });
+
+// Render the 'anotherProfile' page
+router.get('/anotherProfile/:post_id', (req, res) => {
+    const post_id = req.params.post_id;
+    console.log(post_id);
+
+    // First, fetch the user_id associated with the given post_id
+    const getUserIdQuery = `
+        SELECT user_id FROM posts WHERE post_id = ?;
+    `;
+
+    db.query(getUserIdQuery, [post_id], (err, userIdResult) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send('Server error');
+        }
+
+        if (userIdResult.length === 0) {
+            return res.status(404).send('Post not found');
+        }
+
+        const user_id = userIdResult[0].user_id;
+
+        // Now that we have the user_id, proceed with fetching the user's profile information
+        const query = `
+            SELECT 
+                u.user_id, 
+                u.username, 
+                u.email, 
+                u.profile_photo, 
+                u.availability, 
+                u.rating, 
+                u.created_at, 
+                s.skill_name AS user_skill_name, 
+                sh.showcase_id, 
+                sh.title AS showcase_title, 
+                sh.description AS showcase_description, 
+                sh.image_url AS showcase_image_url, 
+                sh.created_at AS showcase_created_at, 
+                ss.skill_name AS showcase_skill_name,
+                p.post_id, 
+                p.title AS post_title, 
+                p.content AS post_content, 
+                p.created_at AS post_created_at, 
+                ps.skill_name AS post_skill_name
+            FROM 
+                users u
+            LEFT JOIN 
+                user_skills us ON u.user_id = us.user_id
+            LEFT JOIN 
+                skills s ON us.skill_id = s.skill_id
+            LEFT JOIN 
+                showcases sh ON u.user_id = sh.user_id
+            LEFT JOIN 
+                showcase_skills sks ON sh.showcase_id = sks.showcase_id
+            LEFT JOIN 
+                skills ss ON sks.skill_id = ss.skill_id
+            LEFT JOIN 
+                posts p ON u.user_id = p.user_id
+            LEFT JOIN 
+                post_skills psk ON p.post_id = psk.post_id
+            LEFT JOIN 
+                skills ps ON psk.skill_id = ps.skill_id
+            WHERE 
+                u.user_id = ?;
+        `;
+
+        db.query(query, [user_id], (err, results) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).send('Server error');
+            }
+
+            if (results.length === 0) {
+                return res.status(404).send('Profile not found');
+            }
+
+            const userProfile = {
+                user_id: results[0].user_id,
+                username: results[0].username,
+                email: results[0].email,
+                profile_photo: results[0].profile_photo,
+                availability: results[0].availability,
+                rating: results[0].rating,
+                created_at: results[0].created_at,
+                skills: [],
+                showcases: {}
+            };
+
+            results.forEach(row => {
+                if (row.user_skill_name && !userProfile.skills.find(skill => skill.skill_name === row.user_skill_name)) {
+                    userProfile.skills.push({ skill_name: row.user_skill_name });
+                }
+
+                if (row.showcase_id) {
+                    if (!userProfile.showcases[row.showcase_id]) {
+                        userProfile.showcases[row.showcase_id] = {
+                            showcase_id: row.showcase_id,
+                            title: row.showcase_title,
+                            description: row.showcase_description,
+                            image_url: row.showcase_image_url,
+                            created_at: row.showcase_created_at,
+                            skills: []
+                        };
+                    }
+
+                    if (row.showcase_skill_name && !userProfile.showcases[row.showcase_id].skills.find(skill => skill.skill_name === row.showcase_skill_name)) {
+                        userProfile.showcases[row.showcase_id].skills.push({ skill_name: row.showcase_skill_name });
+                    }
+                }
+            });
+
+            userProfile.showcases = Object.values(userProfile.showcases);
+
+            res.render('anotherProfile', { profile: userProfile });
+        });
+    });
+});
+
+
 
 // Route to render the privacy policy page
 router.get('/privacy', (req, res) => {

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,21 +15,25 @@
 
         body {
             font-family: 'Arial', sans-serif;
-            background-color: white; /* Lighter background */
+            background-color: white;
+            /* Lighter background */
             color: #333;
             display: flex;
             flex-direction: column;
-            min-height: 100vh; /* Ensures the body takes up at least the full viewport height */
+            min-height: 100vh;
+            /* Ensures the body takes up at least the full viewport height */
         }
 
         /* Wrapper for the content and footer */
         .content-wrapper {
-            flex: 1; /* This will push the footer to the bottom */
+            flex: 1;
+            /* This will push the footer to the bottom */
         }
 
         /* Header */
         header {
-            background-color: #27374D; /* Dark for the navbar */
+            background-color: #27374D;
+            /* Dark for the navbar */
             padding: 15px 20px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             position: fixed;
@@ -184,6 +189,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Main content wrapper to ensure the footer stays at the bottom -->
     <div class="content-wrapper">
@@ -195,12 +201,12 @@
                     <a href="/profile">Profile</a>
                     <a href="/search">Showcases</a>
                     <a href="/logout">Logout</a>
-                <% } else { %>
-                    <a href="/">Home</a>
-                    <a href="/login">Login</a>
-                    <a href="/register">Register</a>
-                    <a href="/about">About Us</a>
-                <% } %>
+                    <% } else { %>
+                        <a href="/">Home</a>
+                        <a href="/login">Login</a>
+                        <a href="/register">Register</a>
+                        <a href="/about">About Us</a>
+                        <% } %>
             </nav>
         </header>
 
@@ -213,21 +219,34 @@
 
             <!-- Posts Listing -->
             <section class="post-listings">
-                <% if (posts.length > 0) { %>
-                    <% posts.forEach(post => { %>
+                <% if (posts.length> 0) { %>
+                    <% posts.forEach(post=> { %>
                         <div class="post-card">
-                            <img src="<%= post.profile_photo_url || '/images/default_profile_photo.jpg' %>" alt="Profile Photo">
-                            <h2><%= post.title %></h2>
-                            <p><strong>Posted By:</strong> <%= post.poster %></p>
-                            <p><strong>Skills:</strong> <%= post.skills %></p>
-                            <p><strong>Description:</strong> <%= post.content %></p>
-                            <p><strong>Posted:</strong> <%= new Date(post.created_at).toLocaleDateString() %></p>
-                            <a href="/profile/<%= post.posterId %>" class="view-profile-button">View Profile</a>
+                            <img src="<%= post.profile_photo_url || '/images/default_profile_photo.jpg' %>"
+                                alt="Profile Photo">
+                            <h2>
+                                <%= post.title %>
+                            </h2>
+                            <p><strong>Posted By:</strong>
+                                <%= post.poster %>
+                            </p>
+                            <p><strong>Skills:</strong>
+                                <%= post.skills %>
+                            </p>
+                            <p><strong>Description:</strong>
+                                <%= post.content %>
+                            </p>
+                            <p><strong>Posted:</strong>
+                                <%= new Date(post.created_at).toLocaleDateString() %>
+                            </p>
+                            <a href="javascript:void(0);" data-post-id="<%= post.post_id %>" onclick="viewProfileByPost(this)" class="view-profile-button">View Profile</a>
+
+
                         </div>
-                    <% }) %>
-                <% } else { %>
-                    <p>No posts found.</p>
-                <% } %>
+                        <% }) %>
+                            <% } else { %>
+                                <p>No posts found.</p>
+                                <% } %>
             </section>
         </main>
     </div>
@@ -239,10 +258,35 @@
     </footer>
 
     <script>
+        // document.addEventListener('DOMContentLoaded', function () {
         function searchJobs() {
             const searchTerm = document.getElementById('searchBar').value;
             window.location.href = '/post?q=' + encodeURIComponent(searchTerm);
         }
+
+        // Function to view profile based on post_id
+        function viewProfileByPost(anchorElement) {
+            const postId = anchorElement.getAttribute('data-post-id'); // Extract post_id from the element's data attribute
+            console.log("hello");
+            console.log("Redirecting to profile of post:", postId); // Log post_id
+            window.location.href = `/anotherProfile/${postId}`;
+        }
+
+
+
+        function displayProfile(profile) {
+            const profileDiv = document.getElementById('profile-content');
+            profileDiv.innerHTML = `
+      <p><strong>Username:</strong> ${profile.username}</p>
+      <p><strong>Email:</strong> ${profile.email}</p>
+      <p><strong>Profile Photo:</strong> <img src="${profile.profile_photo}" alt="Profile Photo"></p>
+      <p><strong>Availability:</strong> ${profile.availability}</p>
+      <p><strong>Rating:</strong> ${profile.rating}/5</p>
+      <p><strong>Joined:</strong> ${profile.created_at}</p>
+    `;
+        }
+        // });
     </script>
 </body>
+
 </html>

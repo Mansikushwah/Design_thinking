@@ -258,6 +258,27 @@
                 showcase.style.display = skill.includes(searchTerm) ? 'block' : 'none';
             });
         });
+
+        function viewProfileByShowcase(showcase_id) {
+            fetch(`/api/user/profile/showcase/${showcase_id}`)
+                .then(response => response.json())
+                .then(data => {
+                    displayProfile(data);
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function displayProfile(profile) {
+            const profileDiv = document.getElementById('profile-content');
+            profileDiv.innerHTML = `
+      <p><strong>Username:</strong> ${profile.username}</p>
+      <p><strong>Email:</strong> ${profile.email}</p>
+      <p><strong>Profile Photo:</strong> <img src="${profile.profile_photo}" alt="Profile Photo"></p>
+      <p><strong>Availability:</strong> ${profile.availability}</p>
+      <p><strong>Rating:</strong> ${profile.rating}/5</p>
+      <p><strong>Joined:</strong> ${profile.created_at}</p>
+    `;
+        }
     </script>
 </body>
 
