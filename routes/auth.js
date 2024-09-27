@@ -16,8 +16,9 @@ router.get('/register', (req, res) => {
 });
 
 router.post('/register', (req, res) => {
-    const { username, email, password } = req.body;
-     console.log("hello");
+    const { username, email, password, city, locality } = req.body; // Extract city and locality
+    console.log("hello");
+
     // Hash the password before storing it
     bcrypt.hash(password, 10, (err, hash) => {
         if (err) {
@@ -25,7 +26,8 @@ router.post('/register', (req, res) => {
             return res.status(500).send('Server error');
         }
 
-        User.create({ username, email, password: hash }, (err, result) => {
+        // Include city and locality in the user creation process
+        User.create({ username, email, password: hash, city, locality }, (err, result) => {
             if (err) {
                 console.error('Error inserting user:', err);
                 return res.status(500).send('Server error');
@@ -34,6 +36,7 @@ router.post('/register', (req, res) => {
         });
     });
 });
+
 
 // Login Handle
 router.post('/login', (req, res, next) => {
