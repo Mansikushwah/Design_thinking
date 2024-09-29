@@ -70,7 +70,7 @@
 
 <body>
     <h2>REGISTER</h2>
-    <form action="/register" method="POST">
+    <form id="registerForm" action="/register" method="POST">
         <div>
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
@@ -91,8 +91,38 @@
             <label for="locality">Locality:</label>
             <input type="text" id="locality" name="locality" required>
         </div>
+
+        <!-- Hidden fields for latitude and longitude -->
+        <input type="hidden" id="latitude" name="latitude">
+        <input type="hidden" id="longitude" name="longitude">
+
         <button type="submit">Register</button>
     </form>
+
+    <script>
+        const form = document.getElementById('registerForm');
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form submission
+
+            // Use the Geolocation API to get the user's location
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    // Set latitude and longitude values in hidden inputs
+                    document.getElementById('latitude').value = position.coords.latitude;
+                    document.getElementById('longitude').value = position.coords.longitude;
+
+                    // Submit the form once the location is obtained
+                    form.submit();
+                }, function(error) {
+                    console.error('Error getting location:', error);
+                    alert('Unable to retrieve your location. Please try again.');
+                });
+            } else {
+                alert('Geolocation is not supported by your browser.');
+            }
+        });
+    </script>
 </body>
 
 </html>

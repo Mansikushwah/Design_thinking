@@ -2,7 +2,7 @@ const express = require('express');
 const passport = require('passport');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
-const User = require('../models/user');
+const User = require('../models/user'); // Assuming the user model is in the models folder
 
 const router = express.Router();
 router.use(bodyParser.urlencoded({ extended: true }));
@@ -12,12 +12,13 @@ router.get('/login', (req, res) => res.render('login', { page: 'login' }));
 
 // Register Page
 router.get('/register', (req, res) => {
-    res.render('register', { page: 'login' }); // Render the register page
+    res.render('register', { page: 'register' }); // Render the register page
 });
 
+// Register Handle
 router.post('/register', (req, res) => {
-    const { username, email, password, city, locality } = req.body; // Extract city and locality
-    console.log("hello");
+    const { username, email, password, city, locality, latitude, longitude } = req.body; // Include latitude and longitude
+    console.log("Received registration data:", { username, email, city, locality, latitude, longitude });
 
     // Hash the password before storing it
     bcrypt.hash(password, 10, (err, hash) => {
@@ -26,8 +27,8 @@ router.post('/register', (req, res) => {
             return res.status(500).send('Server error');
         }
 
-        // Include city and locality in the user creation process
-        User.create({ username, email, password: hash, city, locality }, (err, result) => {
+        // Include city, locality, latitude, and longitude in the user creation process
+        User.create({ username, email, password: hash, city, locality, latitude, longitude }, (err, result) => {
             if (err) {
                 console.error('Error inserting user:', err);
                 return res.status(500).send('Server error');
@@ -36,7 +37,6 @@ router.post('/register', (req, res) => {
         });
     });
 });
-
 
 // Login Handle
 router.post('/login', (req, res, next) => {

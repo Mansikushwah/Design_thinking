@@ -86,15 +86,22 @@
             padding: 20px;
             background-color: white;
             border-radius: 10px;
-            /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
         }
 
         .search-container input[type="text"] {
-            width: 60%;
+            width: 40%;
             padding: 12px;
             font-size: 16px;
             border: 1px solid #CCC;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        .search-container select {
+            padding: 12px;
+            font-size: 16px;
+            margin-left: 10px;
+            border: 1px solid #CCC;
             border-radius: 5px;
         }
 
@@ -216,6 +223,13 @@
         <!-- Search Bar -->
         <div class="search-container">
             <input type="text" id="peopleSkillSearch" placeholder="Search by skill...">
+            <select id="searchRadius">
+                <option value="5">Within 5 km</option>
+                <option value="10">Within 10 km</option>
+                <option value="20">Within 20 km</option>
+                <option value="60">Within 60 km</option>
+                <option value="100">Within 100 km</option>
+            </select>
             <button id="searchButton">Search</button>
         </div>
 
@@ -245,11 +259,27 @@
 
     <script>
         document.getElementById('searchButton').addEventListener('click', async function () {
-            const skill = document.getElementById('peopleSkillSearch').value.toLowerCase();
-            const response = await fetch(`/people/search?skill=${skill}`);
-            const html = await response.text();
-            document.getElementById('peopleContainer').innerHTML = html;
+    const skill = document.getElementById('peopleSkillSearch').value.toLowerCase();
+    const radius = document.getElementById('searchRadius').value;
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(async (position) => {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+
+            const response = await fetch(`/people/search?skill=${skill}&radius=${radius}&lat=${lat}&lon=${lon}`);
+            const users = await response.json();
+
+            // Update the UI with the users found
+            // ...
+        }, () => {
+            alert("Unable to retrieve your location.");
         });
+    } else {
+        alert("Geolocation is not supported by this browser.");
+    }
+});
+
     </script>
 </body>
 </html>
